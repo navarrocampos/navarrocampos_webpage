@@ -447,7 +447,7 @@ body.ann-gone {
 
 .section-title {
   font-family: var(--font-display);
-  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-size: clamp(1.6rem, 2vw, 2.2rem);
   font-weight: 800;
   color: var(--slate);
   line-height: 1.15;
@@ -525,15 +525,16 @@ body.ann-gone {
   background-color: var(--bg);
   overflow: hidden;
   padding: 80px 24px 100px;
-  min-height: 90vh;
+  min-height: 88vh;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .hero-container {
   max-width: var(--max-width);
-  margin: 0 auto;
   width: 100%;
+  margin: 0 auto;
   position: relative;
   z-index: 2;
 }
@@ -568,13 +569,13 @@ body.ann-gone {
 
 .hero-heading {
   font-family: var(--font-display);
-  font-size: clamp(2.2rem, 6vw, 4rem);
+  font-size: clamp(2rem, 3.5vw, 3.2rem);
   font-weight: 800;
   color: var(--slate);
-  line-height: 1.1;
+  line-height: 1.15;
   letter-spacing: -0.02em;
   margin-bottom: 22px;
-  max-width: 700px;
+  max-width: 620px;
 }
 
 .hero-heading em {
@@ -584,10 +585,10 @@ body.ann-gone {
 }
 
 .hero-subheading {
-  font-size: clamp(1rem, 2vw, 1.15rem);
+  font-size: 1.05rem;
   color: var(--slate-mid);
   line-height: 1.7;
-  max-width: 540px;
+  max-width: 520px;
   margin-bottom: 36px;
 }
 
