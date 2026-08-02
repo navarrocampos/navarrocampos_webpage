@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="description" content="NavarroCampos Services — Professional websites built for small businesses and individuals. Affordable, modern, and mobile-ready." />
+  <meta name="theme-color" content="#1A7ABF" />
+
+  <!-- Open Graph (for sharing on social) -->
+  <meta property="og:title" content="NavarroCampos Services — Affordable Professional Websites" />
+  <meta property="og:description" content="Family-run web studio serving US & Canada. Full website build, domain management, and ongoing support at prices that make sense." />
+  <meta property="og:type" content="website" />
+
+  <title>NavarroCampos Services — Websites That Work For You</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Google Fonts: Inter for body, Syne for display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ===================== ANNOUNCEMENT BAR ===================== -->
+  <div class="announcement-bar" role="banner" aria-label="Promotional announcement">
+    <div class="announcement-inner">
+      <span class="announcement-badge">Limited Time</span>
+      <p class="announcement-text">
+        🎉 Launch offer: <strong>30% off your first website</strong> — lock in the price before it's gone.
+        <a href="#contact" class="announcement-link">Claim your discount →</a>
+      </p>
+      <button class="announcement-close" aria-label="Close announcement" id="closeAnnouncement">✕</button>
+    </div>
+  </div>
+
+  <!-- ===================== NAVBAR ===================== -->
+  <header class="navbar" id="navbar" role="banner">
+    <div class="nav-container">
+
+      <!-- Logo -->
+      <a href="#" class="nav-logo" aria-label="NavarroCampos Services home">
+        <span class="logo-nc">NC</span>
+        <span class="logo-services">Services</span>
+      </a>
+
+      <!-- Desktop nav links -->
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#services" class="nav-link">Services</a>
+        <a href="#recommendations" class="nav-link">Who We Help</a>
+        <a href="#contact" class="nav-link">Contact</a>
+        <a href="#contact" class="nav-cta">Get a Free Quote</a>
+      </nav>
+
+      <!-- Mobile hamburger -->
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+    </div>
+
+    <!-- Mobile menu -->
+    <div class="mobile-menu" id="mobileMenu" aria-hidden="true" role="dialog" aria-label="Mobile navigation">
+      <nav class="mobile-nav" aria-label="Mobile main navigation">
+        <a href="#services"        class="mobile-link" data-close-menu>Services</a>
+        <a href="#recommendations" class="mobile-link" data-close-menu>Who We Help</a>
+        <a href="#contact"         class="mobile-link" data-close-menu>Contact</a>
+        <a href="#contact"         class="mobile-link mobile-link--cta" data-close-menu>Get a Free Quote</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ===================== HERO ===================== -->
+    <section class="hero" id="hero" aria-labelledby="hero-heading">
+      <div class="hero-container">
+
+        <div class="hero-badge">
+          <span class="badge-dot" aria-hidden="true"></span>
+          Family Business · 10+ Years in Tech
+        </div>
+
+        <h1 class="hero-heading" id="hero-heading">
+          A professional website<br />
+          <em>shouldn't cost a fortune.</em>
+        </h1>
+
+        <p class="hero-subheading">
+          We build clean, fast, mobile-ready websites for small businesses and independent professionals across the US &amp; Canada — including domain setup and management — at prices that actually make sense.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn--primary">Start My Website</a>
+          <a href="#services" class="btn btn--ghost">See Plans &amp; Pricing</a>
+        </div>
+
+        <div class="hero-proof">
+          <div class="proof-item">
+            <span class="proof-number">10+</span>
+            <span class="proof-label">Years in technology</span>
+          </div>
+          <div class="proof-divider" aria-hidden="true"></div>
+          <div class="proof-item">
+            <span class="proof-number">3</span>
+            <span class="proof-label">Simple, transparent plans</span>
+          </div>
+          <div class="proof-divider" aria-hidden="true"></div>
+          <div class="proof-item">
+            <span class="proof-number">100%</span>
+            <span class="proof-label">Domain &amp; hosting managed</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Decorative background blobs -->
+      <div class="hero-blob hero-blob--blue"  aria-hidden="true"></div>
+      <div class="hero-blob hero-blob--coral" aria-hidden="true"></div>
+      <div class="hero-blob hero-blob--mint"  aria-hidden="true"></div>
+    </section>
+
+    <!-- ===================== SERVICES ===================== -->
+    <section class="services" id="services" aria-labelledby="services-heading">
+      <div class="section-container">
+
+        <div class="section-header">
+          <span class="section-eyebrow">What We Offer</span>
+          <h2 class="section-title" id="services-heading">Pick your plan. We handle the rest.</h2>
+          <p class="section-subtitle">Every plan includes mobile-optimized design, SEO basics, and a personal walkthrough once your site is live.</p>
+        </div>
+
+        <div class="plans-grid">
+
+          <!-- Plan 1: Starter -->
+          <article class="plan-card" aria-labelledby="plan1-name">
+            <div class="plan-header plan-header--blue">
+              <span class="plan-icon" aria-hidden="true">🌐</span>
+              <h3 class="plan-name" id="plan1-name">Starter Presence</h3>
+              <p class="plan-tagline">Your business, online — fast.</p>
+            </div>
+            <div class="plan-body">
+              <div class="plan-price">
+                <span class="price-amount">TBD</span>
+                <span class="price-note">one-time build</span>
+              </div>
+              <ul class="plan-features" aria-label="Starter plan features">
+                <li class="plan-feature"><span class="feature-check" aria-hidden="true">✓</span> Single-page professional website</li>
+                <li class="plan-feature"><span class="feature-check" aria-hidden="true">✓</span> Mobile &amp; tablet ready</li>
+                <li class="plan-feature"><span class="feature-check" aria-hidden="true">✓</span> Contact form with email notifications</li>
+                <li class="plan-feature"><span class="feature-check" aria-hidden="true">✓</span> Domain setup &amp; management included</li>
+                <li class="plan-feature"><span class="feature-check" aria-hidden="true">✓</span> Basic SEO configuration</li>
+                <li class="plan-feature plan-feature--highlight">
+                  <span class="feature-check" aria-hidden="true">✓</span>
+                  <strong>$200/mo</strong> ongoing support + email contact form
+                </li>
+              </ul>
+              <a href="#contact" class="plan-cta plan-cta--blue">Get Started</a>
+            </div>
+          </article>
+
+          <!-- Plan 2: Growth (Featured) -->
+          <article class="plan-card plan-card--featured" aria-labelledby="plan2-name">
+            <div class="plan-badge-popular">Most Popular</div>
+            <div class="plan-header plan-header--coral">
+              <span class="plan-icon" aria-hidden="true">🚀</span>
+              <h3 class="plan-name" id="plan2-name">Growth Site</h3>
+              <p class="plan-tagline">Built to showcase what you do.</p>
+            </div>
+            <div class="plan-body">
+              <div class="plan-price">
+                <span class="price-amount">TBD</span>
+                <span class="price-note">one-time build</span>
+              </div>
+              <ul class="plan-features" aria-label="Growth plan features">
+                <li class="plan-feature"><span class="feature-check" aria-hidden="true">✓</span> Multi-page website (up to 6 pages)</li>
+                <li class="plan-feature"><span class="feature-check" aria-hidden="true">✓</span> Services or product catalog layout</li>
+                <li class="plan-feature"><span class="feature-check" aria-hidden="true">✓</span> Portfolio &amp; gallery support</li>
+                <li class="plan-feature"><span class="feature-check" aria-hidden="true">✓</span> Contact form with email notifications</li>
+                <li class="plan-feature"><span class="feature-check" aria-hidden="true">✓</span> Domain setup &amp; management included</li>
+                <li class="plan-feature"><span class="feature-check" aria-hidden="true">✓</span> Social media links &amp; Google Maps</li>
+                <li class="plan-feature"><span class="feature-check" aria-hidden="true">✓</span> Enhanced SEO setup</li>
+              </ul>
+              <a href="#contact" class="plan-cta plan-cta--coral">Get Started</a>
+            </div>
+          </article>
+
+          <!-- Plan 3: Active Care -->
+          <article class="plan-card" aria-labelledby="plan3-name">
+            <div class="plan-header plan-header--mint">
+              <span class="plan-icon" aria-hidden="true">⚡</span>
+              <h3 class="plan-name" id="plan3-name">Active Care</h3>
+              <p class="plan-tagline">Your site, always up to date.</p>
+            </div>
+            <div class="plan-body">
+              <div class="plan-price">
+                <span class="price-amount">TBD</span>
+                <span class="price-note">per hour · competitive rate</span>
+              </div>
+              <ul class="plan-features" aria-label="Active Care plan features">
+                <li class="plan-feature"><span class="feature-check" aria-hidden="true">✓</span> Live updates &amp; content changes</li>
+                <li class="plan-feature"><span class="feature-check" aria-hidden="true">✓</span> New sections or pages added anytime</li>
+                <li class="plan-feature"><span class="feature-check" aria-hidden="true">✓</span> Image swaps, text edits, menu updates</li>
+                <li class="plan-feature"><span class="feature-check" aria-hidden="true">✓</span> Priority response time</li>
+                <li class="plan-feature"><span class="feature-check" aria-hidden="true">✓</span> Billed only for actual hours worked</li>
+                <li class="plan-feature plan-feature--highlight">
+                  <span class="feature-check" aria-hidden="true">✓</span>
+                  No retainer, no surprises
+                </li>
+              </ul>
+              <a href="#contact" class="plan-cta plan-cta--mint">Get Started</a>
+            </div>
+          </article>
+
+        </div><!-- .plans-grid -->
+
+        <p class="plans-note">
+          Not sure which plan fits? <a href="#contact" class="inline-link">Send us a message</a> — we'll recommend the right one for your business at no charge.
+        </p>
+
+      </div>
+    </section>
+
+    <!-- ===================== RECOMMENDATIONS (TABS) ===================== -->
+    <section class="recommendations" id="recommendations" aria-labelledby="rec-heading">
+      <div class="section-container">
+
+        <div class="section-header">
+          <span class="section-eyebrow">Who We Help</span>
+          <h2 class="section-title" id="rec-heading">Find your fit — in seconds.</h2>
+          <p class="section-subtitle">Select your type of business below and see exactly what we'd recommend for you.</p>
+        </div>
+
+        <!-- Tab buttons -->
+        <div class="tabs" role="tablist" aria-label="Business type recommendations">
+          <button class="tab tab--active" role="tab" aria-selected="true"  aria-controls="tab-services"    id="btn-services"    data-tab="services">Services</button>
+          <button class="tab"             role="tab" aria-selected="false" aria-controls="tab-products"    id="btn-products"    data-tab="products">Products</button>
+          <button class="tab"             role="tab" aria-selected="false" aria-controls="tab-restaurant"  id="btn-restaurant"  data-tab="restaurant">Restaurant</button>
+          <button class="tab"             role="tab" aria-selected="false" aria-controls="tab-portfolio"   id="btn-portfolio"   data-tab="portfolio">Portfolio</button>
+          <button class="tab"             role="tab" aria-selected="false" aria-controls="tab-consulting"  id="btn-consulting"  data-tab="consulting">Consulting</button>
+        </div>
+
+        <!-- Tab panels -->
+        <div class="tab-panels">
+
+          <div class="tab-panel tab-panel--active" id="tab-services" role="tabpanel" aria-labelledby="btn-services">
+            <div class="tab-content">
+              <div class="tab-text">
+                <h3 class="tab-title">Service Businesses</h3>
+                <p class="tab-body">Plumbers, electricians, cleaners, beauty professionals, tutors — if you offer a service, you need people to find you and contact you easily. We build pages that put your service front and center with a clear call-to-action.</p>
+                <ul class="tab-list">
+                  <li>Clear service descriptions &amp; pricing blocks</li>
+                  <li>WhatsApp &amp; phone call buttons</li>
+                  <li>Google Maps integration</li>
+                  <li>Customer review section</li>
+                </ul>
+                <a href="#contact" class="btn btn--primary btn--sm">Get a Quote</a>
+              </div>
+              <div class="tab-visual tab-visual--blue" aria-hidden="true">
+                <div class="tab-visual-icon">🔧</div>
+                <div class="tab-visual-label">Recommended: <strong>Starter Presence</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="tab-products" role="tabpanel" aria-labelledby="btn-products" aria-hidden="true">
+            <div class="tab-content">
+              <div class="tab-text">
+                <h3 class="tab-title">Product Sellers</h3>
+                <p class="tab-body">Selling physical or digital products? We build catalog-style sites that showcase what you offer with photos, descriptions, and a simple way for customers to reach you or place orders.</p>
+                <ul class="tab-list">
+                  <li>Product gallery with photos &amp; descriptions</li>
+                  <li>Category navigation</li>
+                  <li>WhatsApp ordering option</li>
+                  <li>Pricing tables &amp; availability flags</li>
+                </ul>
+                <a href="#contact" class="btn btn--primary btn--sm">Get a Quote</a>
+              </div>
+              <div class="tab-visual tab-visual--coral" aria-hidden="true">
+                <div class="tab-visual-icon">🛍️</div>
+                <div class="tab-visual-label">Recommended: <strong>Growth Site</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="tab-restaurant" role="tabpanel" aria-labelledby="btn-restaurant" aria-hidden="true">
+            <div class="tab-content">
+              <div class="tab-text">
+                <h3 class="tab-title">Restaurants &amp; Food Businesses</h3>
+                <p class="tab-body">A great menu deserves a great website. We build restaurant pages that look as good as the food, with your menu, hours, location, and reservations or delivery contact in one clean spot.</p>
+                <ul class="tab-list">
+                  <li>Digital menu with photos</li>
+                  <li>Opening hours &amp; location map</li>
+                  <li>Reservation or WhatsApp booking</li>
+                  <li>Social media feed integration</li>
+                </ul>
+                <a href="#contact" class="btn btn--primary btn--sm">Get a Quote</a>
+              </div>
+              <div class="tab-visual tab-visual--mint" aria-hidden="true">
+                <div class="tab-visual-icon">🍽️</div>
+                <div class="tab-visual-label">Recommended: <strong>Growth Site</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="tab-portfolio" role="tabpanel" aria-labelledby="btn-portfolio" aria-hidden="true">
+            <div class="tab-content">
+              <div class="tab-text">
+                <h3 class="tab-title">Creatives &amp; Portfolios</h3>
+                <p class="tab-body">Photographers, designers, artists, musicians — your work speaks for itself. We build portfolio sites that give your work room to breathe, with an elegant gallery and a direct line to hire you.</p>
+                <ul class="tab-list">
+                  <li>Full-screen image &amp; video galleries</li>
+                  <li>Project case study layout</li>
+                  <li>About &amp; bio section</li>
+                  <li>Direct booking or inquiry form</li>
+                </ul>
+                <a href="#contact" class="btn btn--primary btn--sm">Get a Quote</a>
+              </div>
+              <div class="tab-visual tab-visual--blue" aria-hidden="true">
+                <div class="tab-visual-icon">🎨</div>
+                <div class="tab-visual-label">Recommended: <strong>Growth Site</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="tab-consulting" role="tabpanel" aria-labelledby="btn-consulting" aria-hidden="true">
+            <div class="tab-content">
+              <div class="tab-text">
+                <h3 class="tab-title">Consultants &amp; Coaches</h3>
+                <p class="tab-body">Your credibility is your product. We build clean, authority-building sites that highlight your expertise, your process, and make it easy for clients to book a discovery call.</p>
+                <ul class="tab-list">
+                  <li>Professional bio &amp; credentials</li>
+                  <li>Services &amp; methodology section</li>
+                  <li>Testimonials &amp; social proof</li>
+                  <li>Calendar or contact booking form</li>
+                </ul>
+                <a href="#contact" class="btn btn--primary btn--sm">Get a Quote</a>
+              </div>
+              <div class="tab-visual tab-visual--coral" aria-hidden="true">
+                <div class="tab-visual-icon">💼</div>
+                <div class="tab-visual-label">Recommended: <strong>Starter or Growth</strong></div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- .tab-panels -->
+      </div>
+    </section>
+
+    <!-- ===================== CONTACT ===================== -->
+    <section class="contact" id="contact" aria-labelledby="contact-heading">
+      <div class="section-container">
+
+        <div class="section-header">
+          <span class="section-eyebrow">Let's Talk</span>
+          <h2 class="section-title" id="contact-heading">Ready to get started?</h2>
+          <p class="section-subtitle">No jargon, no pressure. Tell us a little about your business and we'll come back to you within 24 hours.</p>
+        </div>
+
+        <div class="contact-grid">
+
+          <!-- Social channels -->
+          <div class="contact-channels">
+            <h3 class="channels-title">Reach us directly</h3>
+
+            <a href="https://wa.me/1XXXXXXXXXX" class="channel-card channel-card--whatsapp" target="_blank" rel="noopener noreferrer" aria-label="Contact us on WhatsApp">
+              <span class="channel-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              </span>
+              <div class="channel-text">
+                <span class="channel-name">WhatsApp</span>
+                <span class="channel-desc">Fastest way to reach us</span>
+              </div>
+            </a>
+
+            <a href="https://facebook.com/YOURPAGE" class="channel-card channel-card--facebook" target="_blank" rel="noopener noreferrer" aria-label="Visit our Facebook page">
+              <span class="channel-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              </span>
+              <div class="channel-text">
+                <span class="channel-name">Facebook</span>
+                <span class="channel-desc">Follow our updates</span>
+              </div>
+            </a>
+
+            <a href="https://instagram.com/YOURHANDLE" class="channel-card channel-card--instagram" target="_blank" rel="noopener noreferrer" aria-label="Visit our Instagram profile">
+              <span class="channel-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+              </span>
+              <div class="channel-text">
+                <span class="channel-name">Instagram</span>
+                <span class="channel-desc">See our portfolio</span>
+              </div>
+            </a>
+
+          </div><!-- .contact-channels -->
+
+          <!-- Contact form -->
+          <form class="contact-form" id="contactForm" novalidate aria-label="Contact form">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="fieldName">Your name <span aria-hidden="true">*</span></label>
+                <input class="form-input" type="text" id="fieldName" name="name" required autocomplete="name" placeholder="Maria Garcia" aria-required="true" />
+                <span class="form-error" id="errorName" aria-live="polite"></span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="fieldEmail">Email address <span aria-hidden="true">*</span></label>
+                <input class="form-input" type="email" id="fieldEmail" name="email" required autocomplete="email" placeholder="maria@yourbusiness.com" aria-required="true" />
+                <span class="form-error" id="errorEmail" aria-live="polite"></span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="fieldBusiness">Business type</label>
+              <select class="form-input form-select" id="fieldBusiness" name="business">
+                <option value="" disabled selected>Select your business type</option>
+                <option value="services">Service Business</option>
+                <option value="products">Product Seller</option>
+                <option value="restaurant">Restaurant / Food</option>
+                <option value="portfolio">Creative / Portfolio</option>
+                <option value="consulting">Consultant / Coach</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="fieldMessage">Tell us about your project <span aria-hidden="true">*</span></label>
+              <textarea class="form-input form-textarea" id="fieldMessage" name="message" rows="4" required aria-required="true" placeholder="I run a cleaning business in Toronto and need a simple website where customers can contact me..."></textarea>
+              <span class="form-error" id="errorMessage" aria-live="polite"></span>
+            </div>
+
+            <button type="submit" class="btn btn--primary btn--full" id="submitBtn">
+              Send My Message
+            </button>
+
+            <div class="form-success" id="formSuccess" aria-live="polite" hidden>
+              <span>✅</span> Thanks! We'll get back to you within 24 hours.
+            </div>
+          </form>
+
+        </div><!-- .contact-grid -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo footer-logo" aria-label="NavarroCampos Services home">
+          <span class="logo-nc">NC</span>
+          <span class="logo-services">Services</span>
+        </a>
+        <p class="footer-tagline">Professional websites. Honest prices. Family values.</p>
+      </div>
+
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="#services"        class="footer-link">Services</a>
+        <a href="#recommendations" class="footer-link">Who We Help</a>
+        <a href="#contact"         class="footer-link">Contact</a>
+      </nav>
+
+      <p class="footer-legal">
+        © <span id="footerYear"></span> NavarroCampos Services. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
