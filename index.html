@@ -15,10 +15,10 @@
   <title>NavarroCampos Services — Websites That Work For You</title>
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Google Fonts: Inter for body, Syne for display -->
+  <!-- Google Fonts: Urbanist — single family for all roles -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 </head>
 <body>
 
@@ -38,11 +38,16 @@
   <header class="navbar" id="navbar" role="banner">
     <div class="nav-container">
 
-      <!-- Logo -->
-      <a href="#" class="nav-logo" aria-label="NavarroCampos Services home">
-        <span class="logo-nc">NC</span>
-        <span class="logo-services">Services</span>
-      </a>
+      <!-- Logo — inline SVG, not a link -->
+      <div class="nav-logo" aria-label="NavarroCampos Services">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="77 139 346 224" class="nav-logo-img" aria-hidden="true">
+          <rect x="0" y="0" width="1000" height="1000" fill="#FFFFFF"/>
+          <path d="M 158 159 L 96 159 L 96 299 L 158 299" fill="none" stroke="#1A7ABF" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M 342 159 L 404 159 L 404 299 L 342 299" fill="none" stroke="#1A7ABF" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="250" y="276" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-size="128" font-weight="800" fill="#0D2A4A" letter-spacing="-2">NC</text>
+          <text x="250" y="353" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="600" fill="#3A5A78" letter-spacing="10">SERVICES</text>
+        </svg>
+      </div>
 
       <!-- Desktop nav links -->
       <nav class="nav-links" aria-label="Main navigation">
@@ -77,11 +82,6 @@
     <section class="hero" id="hero" aria-labelledby="hero-heading">
       <div class="hero-container">
 
-        <div class="hero-badge">
-          <span class="badge-dot" aria-hidden="true"></span>
-          Family Business · 10+ Years in Tech
-        </div>
-
         <h1 class="hero-heading" id="hero-heading">
           A professional website<br />
           <em>shouldn't cost a fortune.</em>
@@ -115,10 +115,6 @@
 
       </div>
 
-      <!-- Decorative background blobs -->
-      <div class="hero-blob hero-blob--blue"  aria-hidden="true"></div>
-      <div class="hero-blob hero-blob--coral" aria-hidden="true"></div>
-      <div class="hero-blob hero-blob--mint"  aria-hidden="true"></div>
     </section>
 
     <!-- ===================== SERVICES ===================== -->
@@ -131,10 +127,19 @@
           <p class="section-subtitle">Every plan includes mobile-optimized design, SEO basics, and a personal walkthrough once your site is live.</p>
         </div>
 
+        <!-- 1st year included banner — links to Foundation card in maintenance section -->
+        <a href="#maint1-name" class="maint-included-banner" role="note" aria-label="1st year of Foundation hosting included free — click to learn more">
+          <span class="maint-included-icon" aria-hidden="true">🎁</span>
+          <div class="maint-included-text">
+            <strong>1st year of Foundation included free</strong> with any website build package — your hosting, domain &amp; SSL are covered from day one.
+          </div>
+          <span class="maint-included-badge">$100 value</span>
+        </a>
+
         <div class="plans-grid">
 
           <!-- Plan 1: Starter -->
-          <article class="plan-card" aria-labelledby="plan1-name">
+          <article class="plan-card plan-card--blue-border" aria-labelledby="plan1-name">
             <div class="plan-header plan-header--blue">
               <span class="plan-icon" aria-hidden="true">🌐</span>
               <h3 class="plan-name" id="plan1-name">Starter Presence</h3>
@@ -151,17 +156,14 @@
                 <li class="plan-feature"><span class="feature-check" aria-hidden="true">✓</span> Contact form with email notifications</li>
                 <li class="plan-feature"><span class="feature-check" aria-hidden="true">✓</span> Domain setup &amp; management included</li>
                 <li class="plan-feature"><span class="feature-check" aria-hidden="true">✓</span> Basic SEO configuration</li>
-                <li class="plan-feature plan-feature--highlight">
-                  <span class="feature-check" aria-hidden="true">✓</span>
-                  <strong>$200/mo</strong> ongoing support + email contact form
-                </li>
+                <li class="plan-feature"><span class="feature-check" aria-hidden="true">✓</span> Launch-day walkthrough included</li>
               </ul>
               <a href="#contact" class="plan-cta plan-cta--blue">Get Started</a>
             </div>
           </article>
 
           <!-- Plan 2: Growth (Featured) -->
-          <article class="plan-card plan-card--featured" aria-labelledby="plan2-name">
+          <article class="plan-card plan-card--featured plan-card--coral-border" aria-labelledby="plan2-name">
             <div class="plan-badge-popular">Most Popular</div>
             <div class="plan-header plan-header--coral">
               <span class="plan-icon" aria-hidden="true">🚀</span>
@@ -187,7 +189,7 @@
           </article>
 
           <!-- Plan 3: Active Care -->
-          <article class="plan-card" aria-labelledby="plan3-name">
+          <article class="plan-card plan-card--mint-border" aria-labelledby="plan3-name">
             <div class="plan-header plan-header--mint">
               <span class="plan-icon" aria-hidden="true">⚡</span>
               <h3 class="plan-name" id="plan3-name">Active Care</h3>
@@ -219,6 +221,128 @@
           Not sure which plan fits? <a href="#contact" class="inline-link">Send us a message</a> — we'll recommend the right one for your business at no charge.
         </p>
 
+      </div>
+    </section>
+
+    <!-- ===================== MAINTENANCE ===================== -->
+    <section class="maintenance-section" id="maintenance" aria-labelledby="maintenance-heading">
+      <div class="section-container">
+
+        <div class="section-header">
+          <span class="section-eyebrow">After Your Site Launches</span>
+          <h2 class="section-title" id="maintenance-heading">Keep it running.</h2>
+          <p class="section-subtitle">Every website needs a home. Pick a yearly maintenance plan and we handle hosting, domain, and upkeep — so you never have to think about it.</p>
+        </div>
+
+        <div class="maint-ladder">
+
+          <!-- Foundation -->
+          <article class="maint-step" aria-labelledby="maint1-name">
+            <div class="maint-step-marker">
+              <div class="maint-step-line" aria-hidden="true"></div>
+            </div>
+            <div class="maint-step-card maint-step-card--slate">
+              <div class="maint-included-tag-top">🎁 1st year free with any build package</div>
+              <div class="maint-step-card-inner">
+                <div class="maint-step-left">
+                  <div class="maint-step-header">
+                    <span class="maint-icon" aria-hidden="true">🔒</span>
+                    <div>
+                      <h3 class="maint-name" id="maint1-name">Foundation</h3>
+                      <p class="maint-tagline">Your site stays live — we handle everything behind the scenes.</p>
+                    </div>
+                  </div>
+                  <ul class="maint-features">
+                    <li><span class="maint-check" aria-hidden="true">✓</span> Secure hosting</li>
+                    <li><span class="maint-check" aria-hidden="true">✓</span> Domain registration &amp; renewal</li>
+                    <li><span class="maint-check" aria-hidden="true">✓</span> SSL certificate (https padlock)</li>
+                    <li><span class="maint-check" aria-hidden="true">✓</span> Uptime monitoring</li>
+                  </ul>
+                </div>
+                <div class="maint-step-right">
+                  <div class="maint-step-price">
+                    <span class="maint-price">$100</span>
+                    <span class="maint-period">/year</span>
+                  </div>
+                  <div class="maint-price-alt">≈ <strong>$8.33/month</strong></div>
+                  <a href="#contact" class="maint-cta maint-cta--slate">Get Foundation</a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Essential -->
+          <article class="maint-step" aria-labelledby="maint2-name">
+            <div class="maint-step-marker">
+              <div class="maint-step-line" aria-hidden="true"></div>
+            </div>
+            <div class="maint-step-card maint-step-card--blue">
+              <div class="maint-step-card-inner">
+                <div class="maint-step-left">
+                  <div class="maint-step-header">
+                    <span class="maint-icon" aria-hidden="true">✏️</span>
+                    <div>
+                      <h3 class="maint-name" id="maint2-name">Essential</h3>
+                      <p class="maint-tagline">Foundation + content updates every month, hands-free.</p>
+                    </div>
+                  </div>
+                  <ul class="maint-features">
+                    <li><span class="maint-check maint-check--inherit" aria-hidden="true">✓</span> <span class="maint-inherited">All of Foundation included</span></li>
+                    <li><span class="maint-check" aria-hidden="true">✓</span> 2 content changes per month</li>
+                    <li><span class="maint-check" aria-hidden="true">✓</span> Text &amp; image updates</li>
+                    <li><span class="maint-check" aria-hidden="true">✓</span> Priority email support</li>
+                  </ul>
+                </div>
+                <div class="maint-step-right">
+                  <div class="maint-step-price">
+                    <span class="maint-price">$200</span>
+                    <span class="maint-period">/year</span>
+                  </div>
+                  <div class="maint-price-alt">≈ <strong>$17/month</strong></div>
+                  <span class="maint-save maint-save--blue">best value</span>
+                  <a href="#contact" class="maint-cta maint-cta--blue">Get Essential</a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Growth Care -->
+          <article class="maint-step" aria-labelledby="maint3-name">
+            <div class="maint-step-marker">
+            </div>
+            <div class="maint-step-card maint-step-card--coral">
+              <div class="maint-badge-value">$1,500 value</div>
+              <div class="maint-step-card-inner">
+                <div class="maint-step-left">
+                  <div class="maint-step-header">
+                    <span class="maint-icon" aria-hidden="true">⚡</span>
+                    <div>
+                      <h3 class="maint-name" id="maint3-name">Growth Care</h3>
+                      <p class="maint-tagline">Essential + 30 hours of hands-on work. Your site keeps growing.</p>
+                    </div>
+                  </div>
+                  <ul class="maint-features">
+                    <li><span class="maint-check maint-check--inherit" aria-hidden="true">✓</span> <span class="maint-inherited">All of Essential included</span></li>
+                    <li><span class="maint-check" aria-hidden="true">✓</span> 30 hours of changes &amp; updates</li>
+                    <li><span class="maint-check" aria-hidden="true">✓</span> New pages, sections &amp; features</li>
+                    <li><span class="maint-check" aria-hidden="true">✓</span> Fastest response time</li>
+                    <li><span class="maint-check" aria-hidden="true">✓</span> Unused hours roll over</li>
+                  </ul>
+                </div>
+                <div class="maint-step-right">
+                  <div class="maint-step-price">
+                    <span class="maint-price">$500</span>
+                    <span class="maint-period">/year</span>
+                  </div>
+                  <div class="maint-price-alt">30 hrs included</div>
+                  <span class="maint-save maint-save--coral">$1,500 in work</span>
+                  <a href="#contact" class="maint-cta maint-cta--coral">Get Growth Care</a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+        </div><!-- .maint-ladder -->
       </div>
     </section>
 
@@ -434,9 +558,6 @@
               Send My Message
             </button>
 
-            <div class="form-success" id="formSuccess" aria-live="polite" hidden>
-              <span>✅</span> Thanks! We'll get back to you within 24 hours.
-            </div>
           </form>
 
         </div><!-- .contact-grid -->
@@ -449,9 +570,14 @@
   <footer class="footer" role="contentinfo">
     <div class="footer-container">
       <div class="footer-brand">
-        <a href="#" class="nav-logo footer-logo" aria-label="NavarroCampos Services home">
-          <span class="logo-nc">NC</span>
-          <span class="logo-services">Services</span>
+        <a href="#" class="footer-logo-link" aria-label="NavarroCampos Services home">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="77 139 346 224" class="footer-logo-img" aria-hidden="true">
+            <rect x="0" y="0" width="1000" height="1000" fill="#0D2A4A"/>
+            <path d="M 158 159 L 96 159 L 96 299 L 158 299" fill="none" stroke="#5BC4FF" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 342 159 L 404 159 L 404 299 L 342 299" fill="none" stroke="#5BC4FF" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+            <text x="250" y="276" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-size="128" font-weight="800" fill="#FFFFFF" letter-spacing="-2">NC</text>
+            <text x="250" y="353" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="600" fill="#9AAABF" letter-spacing="10">SERVICES</text>
+          </svg>
         </a>
         <p class="footer-tagline">Professional websites. Honest prices. Family values.</p>
       </div>
