@@ -981,8 +981,8 @@ body.ann-gone {
 }
 
 .maint-step-card--slate {
-  background-color: var(--blue-light);
-  border-color: #1A7ABF;
+  background-color: var(--mint-light);
+  border-color: var(--mint);
 }
 
 .maint-step-card--blue {
@@ -1698,4 +1698,25 @@ body.ann-gone {
   body {
     padding-top: 0;
   }
+}
+
+/* ---- 15. Price inline row (strikethrough + amount side by side) ---- */
+.price-inline-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.price-was {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--slate-soft);
+  text-decoration: line-through;
+}
+
+.price-per-hour {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--slate);
 }
