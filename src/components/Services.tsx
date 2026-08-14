@@ -63,7 +63,10 @@ const plans: Plan[] = [
       'Domain setup & management included',
       'Social media links & Google Maps',
     ],
-    cta: [{ label: 'See samples', href: '#contact', cls: 'plan-cta--coral' }],
+    cta: [
+      { label: 'Get a quote',      href: '#contact',               cls: 'plan-cta--coral' },
+      { label: 'See Growth Style', href: 'growth-style-main.html', cls: 'plan-cta--coral-ghost', target: '_blank' },
+    ],
   },
   {
     id: 'active-care',

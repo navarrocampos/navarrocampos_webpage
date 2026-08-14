@@ -15,8 +15,8 @@ const TABS = [
   },
   {
     id: 'starter',
-    label: 'Starter (1 page)',
-    title: 'Starter (1 page)',
+    label: 'Starter',
+    title: 'Starter',
     body: 'Placeholder content for the Starter package. This section will explain the one-page website experience, making it easy to introduce your business quickly.',
     items: ['Simple one-page layout', 'Essential contact details', 'Fast launch experience'],
     visualClass: 'tab-visual--coral',
@@ -25,8 +25,8 @@ const TABS = [
   },
   {
     id: 'growth',
-    label: 'Growth (3 pages)',
-    title: 'Growth (3 pages)',
+    label: 'Growth',
+    title: 'Growth',
     body: 'Placeholder content for the Growth package. This area will highlight the expanded three-page structure for businesses that want more detail and more room to grow.',
     items: ['Three-page website structure', 'More detail for services and about', 'Expanded content layout'],
     visualClass: 'tab-visual--mint',

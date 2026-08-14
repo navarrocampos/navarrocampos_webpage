@@ -36,7 +36,7 @@ export function Contact() {
 
           {/* Social channels */}
           <div className="contact-channels">
-            <h3 className="channels-title">Reach us directly</h3>
+            <p className="channels-title">Reach us directly</p>
 
             <a
               href="https://wa.me/1XXXXXXXXXX"

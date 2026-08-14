@@ -15,43 +15,27 @@ export function Navbar() {
   const [scrolled,   setScrolled]   = useState(false);
   const [menuOpen,   setMenuOpen]   = useState(false);
 
-  /* Restore dismissed state from sessionStorage */
   useEffect(() => {
-    if (sessionStorage.getItem('nc_ann_dismissed') === '1') {
-      setAnnVisible(false);
-    }
+    if (sessionStorage.getItem('nc_ann_dismissed') === '1') setAnnVisible(false);
   }, []);
 
-  /* Scroll shadow */
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  /* Keep body scroll locked when menu is open */
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [menuOpen]);
-
-  /* Update body/navbar offset class when announcement is gone */
-  useEffect(() => {
-    if (!annVisible) {
-      document.body.classList.add('ann-gone');
-    } else {
-      document.body.classList.remove('ann-gone');
-    }
+    if (!annVisible) document.body.classList.add('ann-gone');
+    else document.body.classList.remove('ann-gone');
   }, [annVisible]);
 
-  /* Close menu on resize to desktop */
   useEffect(() => {
     const onResize = () => { if (window.innerWidth > 900) setMenuOpen(false); };
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  /* Keyboard: Escape closes menu */
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMenuOpen(false); };
     document.addEventListener('keydown', onKey);
@@ -65,7 +49,6 @@ export function Navbar() {
 
   const closeMenu = () => setMenuOpen(false);
 
-  /* Smooth scroll with offset for fixed header */
   const handleAnchor = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const href = e.currentTarget.getAttribute('href');
     if (!href?.startsWith('#')) return;
@@ -117,10 +100,8 @@ export function Navbar() {
 
           <button
             className={`hamburger${menuOpen ? ' is-open' : ''}`}
-            id="hamburger"
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
-            aria-controls="mobileMenu"
             onClick={() => setMenuOpen(v => !v)}
           >
             <span className="hamburger-bar" />
@@ -128,23 +109,27 @@ export function Navbar() {
             <span className="hamburger-bar" />
           </button>
         </div>
-
-        {/* Mobile menu */}
-        <div
-          id="mobileMenu"
-          className={`mobile-menu${menuOpen ? ' is-open' : ''}${!annVisible ? ' ann-gone' : ''}`}
-          aria-hidden={!menuOpen}
-          role="dialog"
-          aria-label="Mobile navigation"
-        >
-          <nav className="mobile-nav" aria-label="Mobile main navigation">
-            {NAV_LINKS.map(l => (
-              <a key={l.href} href={l.href} className="mobile-link" onClick={handleAnchor}>{l.label}</a>
-            ))}
-            <a href="#contact" className="mobile-link mobile-link--cta" onClick={handleAnchor}>Get a Free Quote</a>
-          </nav>
-        </div>
       </header>
+
+      {/* Tap-outside overlay */}
+      <div
+        className={`mobile-overlay${menuOpen ? ' is-open' : ''}`}
+        onClick={closeMenu}
+        aria-hidden="true"
+      />
+
+      {/* Mobile menu — outside header so it's never clipped */}
+      <div
+        className={`mobile-menu${menuOpen ? ' is-open' : ''}${!annVisible ? ' ann-gone' : ''}`}
+        aria-label="Mobile navigation"
+      >
+        <nav className="mobile-nav">
+          {NAV_LINKS.map(l => (
+            <a key={l.href} href={l.href} className="mobile-link" onClick={handleAnchor}>{l.label}</a>
+          ))}
+          <a href="#contact" className="mobile-link mobile-link--cta" onClick={handleAnchor}>Get a Free Quote</a>
+        </nav>
+      </div>
     </>
   );
 }
