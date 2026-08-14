@@ -1,4 +1,24 @@
-const tiers = [
+interface Feature {
+  text: string;
+  inherit?: boolean;
+}
+
+interface Tier {
+  id: string;
+  icon: string;
+  name: string;
+  tagline: string;
+  cardClass: string;
+  includedTag?: string;
+  badgeValue?: string;
+  price: string;
+  period: string;
+  save?: { label: string; cls: string };
+  cta: { label: string; cls: string };
+  features: Feature[];
+}
+
+const tiers: Tier[] = [
   {
     id: 'maint1',
     icon: '🔒',

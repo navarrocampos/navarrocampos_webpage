@@ -1,4 +1,28 @@
-const plans = [
+interface Cta {
+  label: string;
+  href: string;
+  cls: string;
+  target?: string;
+}
+
+interface Plan {
+  id: string;
+  icon: string;
+  name: string;
+  tagline: string;
+  headerClass: string;
+  cardClass: string;
+  badge?: string;
+  priceWas?: string;
+  price: string;
+  perHour?: boolean;
+  priceNote: string;
+  features: string[];
+  highlightLast?: boolean;
+  cta: Cta[];
+}
+
+const plans: Plan[] = [
   {
     id: 'starter',
     icon: '🌐',
@@ -17,8 +41,8 @@ const plans = [
       'Social media links & Google Maps',
     ],
     cta: [
-      { label: 'Get a quote',       href: '#contact',                                           cls: 'plan-cta--blue' },
-      { label: 'See Starter Style', href: 'starter-style-main.html', target: '_blank',          cls: 'plan-cta--blue-ghost' },
+      { label: 'Get a quote',       href: '#contact',                cls: 'plan-cta--blue' },
+      { label: 'See Starter Style', href: 'starter-style-main.html', cls: 'plan-cta--blue-ghost', target: '_blank' },
     ],
   },
   {
@@ -77,7 +101,6 @@ export function Services() {
           </p>
         </div>
 
-        {/* 1st year included banner */}
         <a
           href="#maint1-name"
           className="maint-included-banner"
