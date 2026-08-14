@@ -1,0 +1,6 @@
+# Cloudflare Pages — no Workers needed for static export.
+# This file is here for documentation; Pages reads build settings from the dashboard.
+#
+# Build command:  npm run build
+# Output dir:     out
+# Node version:   20
