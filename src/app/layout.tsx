@@ -10,13 +10,13 @@ const urbanist = Urbanist({
 });
 
 export const metadata: Metadata = {
-  title: 'NavarroCampos Services — Websites That Work For You',
+  title: 'Affordable Web Design for Small Businesses & Contractors | NC Services',
   description:
-    'NavarroCampos Services — Professional websites built for small businesses in Toronto and across Canada. Flat pricing, domain included, no surprises.',
+    "Get a fast, mobile-optimized website for your small business or freelance trade. Flat rates, 1st-year free hosting, and 100% managed globally. Get a free quote!",
   openGraph: {
-    title: 'NavarroCampos Services — Websites for Small Businesses',
+    title: 'Affordable Web Design for Small Businesses & Contractors | NC Services',
     description:
-      'Family-run web studio serving Toronto and beyond. Flat-rate website builds from $560, domain management included, first year of hosting free.',
+      "Get a fast, mobile-optimized website for your small business or freelance trade. Flat rates, 1st-year free hosting, and 100% managed globally. Get a free quote!",
     type: 'website',
   },
 };

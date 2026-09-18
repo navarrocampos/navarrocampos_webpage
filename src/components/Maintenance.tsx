@@ -1,3 +1,5 @@
+import { withCad } from './withCad';
+
 interface Feature {
   text: string;
   inherit?: boolean;
@@ -26,7 +28,7 @@ const tiers: Tier[] = [
     tagline: 'Your site stays live — we handle everything behind the scenes.',
     cardClass: 'maint-step-card--slate',
     includedTag: '🎁 1st year free with any build package',
-    price: '$89',
+    price: '$89CAD',
     period: '/year',
     cta: { label: 'Get Foundation', cls: 'maint-cta--slate' },
     features: [
@@ -42,7 +44,7 @@ const tiers: Tier[] = [
     name: 'Essential',
     tagline: 'Foundation + one round of content updates every month.',
     cardClass: 'maint-step-card--blue',
-    price: '$199',
+    price: '$199CAD',
     period: '/year',
     save: { label: 'best value', cls: 'maint-save--blue' },
     cta: { label: 'Get Essential', cls: 'maint-cta--blue' },
@@ -59,14 +61,14 @@ const tiers: Tier[] = [
     name: 'Growth Care',
     tagline: 'Essential + 15 hours of hands-on work. Your site keeps growing.',
     cardClass: 'maint-step-card--coral',
-    badgeValue: '$1,500 value',
-    price: '$999',
+    badgeValue: '$1,500CAD value',
+    price: '$999CAD',
     period: '/year',
-    save: { label: 'save $500+', cls: 'maint-save--coral' },
+    save: { label: 'save $500+CAD', cls: 'maint-save--coral' },
     cta: { label: 'Get Growth Care', cls: 'maint-cta--coral' },
     features: [
       { text: 'All of Essential included', inherit: true },
-      { text: '15 hours of changes & updates ($1,500 value)' },
+      { text: '15 hours of changes & updates ($1,500CAD value)' },
       { text: 'New pages, sections & features' },
       { text: 'Fastest response time' },
       { text: 'Unused hours roll over (up to 1 year)' },
@@ -100,7 +102,7 @@ export function Maintenance() {
                   <div className="maint-included-tag-top">{tier.includedTag}</div>
                 )}
                 {tier.badgeValue && (
-                  <div className="maint-badge-value">{tier.badgeValue}</div>
+                  <div className="maint-badge-value">{withCad(tier.badgeValue)}</div>
                 )}
 
                 <div className="maint-step-card-inner">
@@ -120,8 +122,8 @@ export function Maintenance() {
                             aria-hidden="true"
                           >✓</span>
                           {f.inherit
-                            ? <span className="maint-inherited">{f.text}</span>
-                            : f.text
+                            ? <span className="maint-inherited">{withCad(f.text)}</span>
+                            : withCad(f.text)
                           }
                         </li>
                       ))}
@@ -131,11 +133,11 @@ export function Maintenance() {
                   <div className="maint-step-right">
                     <div className="maint-price-group">
                       <div className="maint-step-price">
-                        <span className="maint-price">{tier.price}</span>
+                        <span className="maint-price">{withCad(tier.price)}</span>
                         <span className="maint-period">{tier.period}</span>
                       </div>
                       {tier.save && (
-                        <span className={`maint-save ${tier.save.cls}`}>{tier.save.label}</span>
+                        <span className={`maint-save ${tier.save.cls}`}>{withCad(tier.save.label)}</span>
                       )}
                     </div>
                     <a href="#contact" className={`maint-cta ${tier.cta.cls}`}>

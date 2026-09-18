@@ -1,22 +1,23 @@
+import { withCad } from './withCad';
+
 export function Hero() {
   return (
     <section className="hero" id="hero" aria-labelledby="hero-heading">
       <div className="hero-container">
 
         <h1 className="hero-heading" id="hero-heading">
-          Your business deserves<br />
-          <em>a website that works.</em>
+          Affordable Web Design Services for<br />
+          <em>Small Businesses &amp; Contractors Worldwide.</em>
         </h1>
 
         <p className="hero-subheading">
-          We build clean, fast, mobile-ready websites for small businesses in Toronto and
-          across Canada — domain setup and management included, first year of hosting on us.
-          Flat rates, no surprises.
+          Clean, fast, mobile-ready websites built to scale your business. Flat-rate packages,
+          free first-year hosting, and 100% managed setup—no matter where you are located.
         </p>
 
         <div className="hero-actions">
           <a href="#contact" className="btn btn--primary">Start My Website</a>
-          <a href="#services" className="btn btn--ghost">See Plans &amp; Pricing</a>
+          <a href="#services" className="btn btn--ghost">See Global Plans &amp; Pricing</a>
         </div>
 
         <div className="hero-proof">
@@ -26,7 +27,7 @@ export function Hero() {
           </div>
           <div className="proof-divider" aria-hidden="true" />
           <div className="proof-item">
-            <span className="proof-number">$560</span>
+            <span className="proof-number">{withCad('$560CAD')}</span>
             <span className="proof-label">Websites from (launch price)</span>
           </div>
           <div className="proof-divider" aria-hidden="true" />

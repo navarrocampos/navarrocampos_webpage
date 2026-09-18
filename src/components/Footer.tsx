@@ -4,6 +4,7 @@ const LINKS = [
   { href: '#services',        label: 'Services' },
   { href: '#maintenance',     label: 'Maintenance' },
   { href: '#recommendations', label: 'Who We Help' },
+  { href: '#faq',             label: 'FAQ' },
   { href: '#contact',         label: 'Contact' },
 ];
 

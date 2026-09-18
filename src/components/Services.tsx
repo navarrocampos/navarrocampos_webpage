@@ -1,3 +1,5 @@
+import { withCad } from './withCad';
+
 interface Cta {
   label: string;
   href: string;
@@ -31,7 +33,7 @@ const plans: Plan[] = [
     headerClass: 'plan-header--blue',
     cardClass: 'plan-card--blue-border',
     priceWas: '$700',
-    price: '$560',
+    price: '$560CAD',
     priceNote: 'one-time build · launch price',
     features: [
       'Single-page professional website',
@@ -54,7 +56,7 @@ const plans: Plan[] = [
     cardClass: 'plan-card--coral-border plan-card--featured',
     badge: 'Most Popular',
     priceWas: '$1,000',
-    price: '$800',
+    price: '$800CAD',
     priceNote: 'one-time build · launch price',
     features: [
       'Up to 3 pages as per your needs',
@@ -75,7 +77,7 @@ const plans: Plan[] = [
     tagline: 'Live updates when you need them.',
     headerClass: 'plan-header--mint',
     cardClass: 'plan-card--mint-border',
-    price: '$100',
+    price: '$100CAD',
     perHour: true,
     priceNote: 'no minimum · no retainer',
     features: [
@@ -115,7 +117,7 @@ export function Services() {
             <strong>1st year of Foundation included free</strong> with any website build — your
             hosting, domain &amp; SSL are covered from day one.
           </div>
-          <span className="maint-included-badge">$89 value</span>
+          <span className="maint-included-badge">{withCad('$89CAD')} value</span>
         </a>
 
         <div className="plans-grid">
@@ -136,8 +138,8 @@ export function Services() {
               <div className="plan-body">
                 <div className="plan-price">
                   <span className="price-inline-row">
-                    {plan.priceWas && <span className="price-was">{plan.priceWas}</span>}
-                    <span className="price-amount">{plan.price}</span>
+                    {plan.priceWas && <span className="price-was">{withCad(plan.priceWas)}</span>}
+                    <span className="price-amount">{withCad(plan.price)}</span>
                     {plan.perHour && <span className="price-per-hour">/hr</span>}
                   </span>
                   <span className="price-note">{plan.priceNote}</span>
