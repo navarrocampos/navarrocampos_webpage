@@ -1,0 +1,1695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Layout Demo — NavarroCampos Services</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ── RESET & TOKENS ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --switcher-h: 42px; }
+    :root {
+      --col-bg:        #F7F8FA;
+      --col-surface:   #FFFFFF;
+      --col-border:    #E2E6ED;
+      --col-text:      #1A1F2E;
+      --col-muted:     #6B7280;
+      --col-accent:    #F59E0B;       /* amber */
+      --col-accent2:   #3B5BDB;       /* indigo */
+      --col-dark:      #1A1F2E;
+      --font-display:  'Poppins', sans-serif;
+      --font-body:     'Inter', sans-serif;
+      --radius:        12px;
+      --radius-lg:     20px;
+      --shadow-sm:     0 1px 4px rgba(0,0,0,.06);
+      --shadow-md:     0 4px 20px rgba(0,0,0,.10);
+      --shadow-lg:     0 8px 40px rgba(0,0,0,.14);
+      --transition:    .25s ease;
+      --max-w:         1140px;
+    }
+    html { scroll-behavior: smooth; overflow-x: hidden; width: 100%; }
+    body {
+      font-family: var(--font-body);
+      background: var(--col-bg);
+      color: var(--col-text);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden; /* prevent any element from causing page-level h-scroll */
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    .container { width: 100%; max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+    .section { padding: 48px 0; scroll-margin-top: calc(var(--switcher-h, 42px) + 64px); }
+    .section-label {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--col-accent2);
+      background: rgba(59,91,219,.08);
+      padding: 4px 14px;
+      border-radius: 99px;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--col-dark);
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 1.05rem;
+      color: var(--col-muted);
+      max-width: 560px;
+    }
+    .tag {
+      display: inline-block;
+      background: var(--col-bg);
+      border: 1px solid var(--col-border);
+      border-radius: 6px;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--col-muted);
+      padding: 3px 10px;
+    }
+
+    /* ── STICKY NAV ─────────────────────────────────────────── */
+    .nav {
+      position: fixed; top: var(--switcher-h, 42px); left: 0; right: 0; z-index: 100;
+      background: rgba(247,248,250,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--col-border);
+      height: 64px;
+      display: flex; align-items: center;
+    }
+    .nav__inner {
+      display: flex; align-items: center; justify-content: space-between;
+      width: 100%; max-width: var(--max-w); margin: 0 auto; padding: 0 24px;
+    }
+    .nav__logo {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--col-dark);
+    }
+    .nav__logo-box {
+      width: 36px; height: 36px;
+      background: var(--col-accent2);
+      border-radius: 8px;
+      display: grid; place-items: center;
+      color: #fff;
+      font-size: .65rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+    }
+    .nav__links { display: flex; gap: 32px; list-style: none; }
+    .nav__links a {
+      font-size: .9rem; font-weight: 500; color: var(--col-muted);
+      transition: color var(--transition);
+    }
+    .nav__links a:hover { color: var(--col-accent2); }
+    .nav__cta {
+      background: var(--col-accent2); color: #fff;
+      padding: 9px 22px;
+      border-radius: 8px;
+      font-size: .875rem;
+      font-weight: 600;
+      font-family: var(--font-display);
+      transition: opacity var(--transition);
+    }
+    .nav__cta:hover { opacity: .85; }
+    .nav__hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .nav__hamburger span { transition: transform .25s ease, opacity .2s ease; }
+    .nav__hamburger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav__hamburger.is-open span:nth-child(2) { opacity: 0; }
+    .nav__hamburger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .nav__hamburger span { width: 22px; height: 2px; background: var(--col-dark); border-radius: 2px; }
+
+    /* ── SIDE INDICATOR ─────────────────────────────────────── */
+    .side-indicator {
+      position: fixed; right: 28px; top: 50%;
+      transform: translateY(-50%);
+      display: flex; flex-direction: column; gap: 10px;
+      z-index: 99;
+    }
+    .side-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      border: 2px solid var(--col-border);
+      background: transparent;
+      cursor: pointer;
+      transition: all var(--transition);
+      position: relative;
+    }
+    .side-dot.active { border-color: var(--col-accent2); background: var(--col-accent2); }
+    .side-dot::after {
+      content: attr(data-label);
+      position: absolute; right: 18px; top: 50%;
+      transform: translateY(-50%);
+      background: var(--col-dark);
+      color: #fff;
+      font-size: .7rem;
+      white-space: nowrap;
+      padding: 3px 8px;
+      border-radius: 4px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition);
+    }
+    .side-dot:hover::after { opacity: 1; }
+
+    /* ── HERO ───────────────────────────────────────────────── */
+    .hero { scroll-margin-top: calc(var(--switcher-h, 42px) + 64px);
+      min-height: 100vh;
+      background: var(--col-dark);
+      display: flex; align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero__grid {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero__glow {
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(59,91,219,.25) 0%, transparent 70%);
+      top: -100px; right: -100px;
+      pointer-events: none;
+    }
+    .hero__glow2 {
+      position: absolute;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,158,11,.15) 0%, transparent 70%);
+      bottom: -100px; left: 100px;
+      pointer-events: none;
+    }
+    .hero__content {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: center;
+      width: 100%; max-width: var(--max-w);
+      margin: 0 auto; padding: calc(var(--switcher-h, 42px) + 64px + 56px) 24px 80px;
+    }
+    .hero__badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 99px;
+      padding: 6px 14px;
+      font-size: .78rem;
+      font-weight: 600;
+      color: rgba(255,255,255,.7);
+      margin-bottom: 24px;
+    }
+    .hero__badge-dot {
+      width: 7px; height: 7px; background: var(--col-accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+    .hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+      font-weight: 800;
+      line-height: 1.1;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+    .hero__title em {
+      font-style: normal;
+      color: var(--col-accent);
+    }
+    .hero__desc {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,.6);
+      margin-bottom: 36px;
+      max-width: 480px;
+    }
+    .hero__actions { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-family: var(--font-display);
+      font-size: .9rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all var(--transition);
+    }
+    .btn-primary { background: var(--col-accent); color: var(--col-dark); }
+    .btn-primary:hover { filter: brightness(1.08); transform: translateY(-1px); }
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid rgba(255,255,255,.2);
+      color: rgba(255,255,255,.85);
+    }
+    .btn-outline:hover { border-color: rgba(255,255,255,.5); background: rgba(255,255,255,.05); }
+    .hero__card {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      backdrop-filter: blur(8px);
+    }
+    .hero__card-label {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.35);
+      margin-bottom: 20px;
+    }
+    .hero__mockup {
+      background: rgba(255,255,255,.05);
+      border-radius: 10px;
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    .hero__mockup-bar {
+      display: flex; gap: 6px; margin-bottom: 16px;
+    }
+    .hero__mockup-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+    }
+    .hero__mockup-line {
+      height: 8px; border-radius: 4px;
+      background: rgba(255,255,255,.08);
+      margin-bottom: 8px;
+    }
+    .hero__stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+    .hero__stat {
+      background: rgba(255,255,255,.05);
+      border-radius: 8px; padding: 14px;
+      text-align: center;
+    }
+    .hero__stat-n {
+      font-family: var(--font-display);
+      font-size: 1.4rem; font-weight: 700;
+      color: var(--col-accent);
+      display: block;
+    }
+    .hero__stat-l {
+      font-size: .7rem; color: rgba(255,255,255,.4);
+    }
+
+    /* ── ABOUT ──────────────────────────────────────────────── */
+    #about {
+      background: var(--col-surface);
+    }
+    .about__grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    .about__img-wrap {
+      position: relative;
+    }
+    .about__img-placeholder {
+      width: 100%; aspect-ratio: 4/5;
+      background: linear-gradient(135deg, #E0E7FF 0%, #C7D2FE 100%);
+      border-radius: var(--radius-lg);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      color: var(--col-accent2);
+      font-family: var(--font-display);
+      font-weight: 700;
+      gap: 10px;
+    }
+    .about__img-placeholder svg { opacity: .4; }
+    .about__accent-card {
+      position: absolute;
+      bottom: -20px; right: -20px;
+      background: var(--col-accent);
+      border-radius: var(--radius);
+      padding: 18px 22px;
+      box-shadow: var(--shadow-lg);
+    }
+    .about__accent-card strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 1.4rem; font-weight: 800;
+      color: var(--col-dark);
+    }
+    .about__accent-card span {
+      font-size: .78rem; font-weight: 600; color: rgba(26,31,46,.65);
+    }
+    .about__features { margin-top: 36px; display: flex; flex-direction: column; gap: 16px; }
+    .about__feature {
+      display: flex; align-items: flex-start; gap: 14px;
+    }
+    .about__feature-icon {
+      width: 42px; height: 42px; flex-shrink: 0;
+      background: rgba(59,91,219,.08);
+      border-radius: 10px;
+      display: grid; place-items: center;
+      font-size: 1.1rem;
+    }
+    .about__feature h4 {
+      font-family: var(--font-display);
+      font-size: .95rem; font-weight: 600;
+      margin-bottom: 3px;
+    }
+    .about__feature p { font-size: .875rem; color: var(--col-muted); }
+
+    /* ── SERVICES — 3-BOX ───────────────────────────────────── */
+    #services {
+      background: var(--col-bg);
+    }
+    .services__grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 24px; margin-top: 56px;
+    }
+    .service-card {
+      background: var(--col-surface);
+      border: 1px solid var(--col-border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--col-accent2);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform var(--transition);
+    }
+    .service-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-card__icon {
+      width: 52px; height: 52px;
+      background: rgba(59,91,219,.08);
+      border-radius: 12px;
+      display: grid; place-items: center;
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+    }
+    .service-card__num {
+      position: absolute; top: 24px; right: 24px;
+      font-family: var(--font-display);
+      font-size: 3rem; font-weight: 800;
+      color: rgba(0,0,0,.04);
+      line-height: 1;
+    }
+    .service-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.1rem; font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .service-card p { font-size: .9rem; color: var(--col-muted); margin-bottom: 20px; }
+    .service-card__link {
+      font-size: .85rem; font-weight: 600;
+      color: var(--col-accent2);
+      display: flex; align-items: center; gap: 4px;
+    }
+
+    /* ── PLANS — TABBED PANEL ────────────────────────────────── */
+    #plans {
+      background: var(--col-surface);
+    }
+    .plans__head { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 20px; }
+    .plans__tabs-wrap { margin-top: 48px; }
+    .plans__tabs {
+      display: flex; gap: 4px;
+      background: var(--col-bg);
+      border: 1px solid var(--col-border);
+      border-radius: 12px;
+      padding: 4px;
+      width: fit-content;
+      margin-bottom: 32px;
+    }
+    .plans__tab {
+      padding: 10px 24px;
+      border-radius: 9px;
+      font-family: var(--font-display);
+      font-size: .875rem;
+      font-weight: 600;
+      color: var(--col-muted);
+      cursor: pointer;
+      transition: all var(--transition);
+      border: none; background: transparent;
+    }
+    .plans__tab.active {
+      background: var(--col-surface);
+      color: var(--col-accent2);
+      box-shadow: var(--shadow-sm);
+    }
+    .plans__panel { display: none; }
+    .plans__panel.active { display: block; }
+    .plans__panel-inner {
+      background: var(--col-bg);
+      border: 1px solid var(--col-border);
+      border-radius: var(--radius-lg);
+      padding: 48px;
+      min-height: 340px;
+    }
+    .plans__panel-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem; font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .plans__panel-desc { color: var(--col-muted); margin-bottom: 28px; max-width: 560px; }
+    .plans__features { display: flex; flex-direction: column; gap: 10px; }
+    .plans__feature {
+      display: flex; align-items: center; gap: 10px;
+      font-size: .925rem;
+    }
+    .plans__check {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: rgba(59,91,219,.1);
+      color: var(--col-accent2);
+      display: grid; place-items: center;
+      font-size: .7rem;
+      flex-shrink: 0;
+    }
+    .plans__price {
+      display: flex; align-items: baseline; gap: 4px;
+      margin-top: 28px;
+    }
+    .plans__price-n {
+      font-family: var(--font-display);
+      font-size: 2.2rem; font-weight: 800;
+    }
+    .plans__price-label { font-size: .85rem; color: var(--col-muted); }
+
+    /* ── PORTFOLIO — CAROUSEL ────────────────────────────────── */
+    #portfolio {
+      background: var(--col-bg);
+      /* Belt-and-suspenders: section itself never overflows */
+      overflow-x: hidden;
+    }
+
+    /* Wrap: hard-clips the track so nothing bleeds into the page width.
+       The mask then fades the visible edges for the peek illusion. */
+    .carousel-wrap {
+      position: relative;
+      margin-top: 56px;
+      overflow: hidden;          /* ← clips track; prevents page-level h-scroll */
+      -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 12%,
+        black 88%,
+        transparent 100%
+      );
+      mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 12%,
+        black 88%,
+        transparent 100%
+      );
+    }
+
+    /* Track moves via transform only — never escapes the clipped wrap */
+    .carousel-track {
+      display: flex;
+      gap: 28px;
+      transition: transform .55s cubic-bezier(.4, 0, .2, 1);
+      will-change: transform;
+    }
+
+    /* Each card: 68% of wrap width so ~16% of adjacent cards peek */
+    .carousel-card {
+      flex-shrink: 0;
+      width: 68%;
+      background: var(--col-surface);
+      border: 1px solid var(--col-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      /* inactive: slightly scaled down + dimmed */
+      transform: scale(.94);
+      opacity: .5;
+      transition:
+        transform .55s cubic-bezier(.4, 0, .2, 1),
+        opacity   .55s cubic-bezier(.4, 0, .2, 1),
+        box-shadow .3s ease;
+    }
+    .carousel-card.is-active {
+      transform: scale(1);
+      opacity: 1;
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* Image area — arrows sit here */
+    .carousel-card__img {
+      aspect-ratio: 16/9;
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .carousel-card__img-label {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 6px;
+    }
+
+    /* Arrows overlaid on the image */
+    .carousel-arrow {
+      position: absolute;
+      top: 50%; transform: translateY(-50%);
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.88);
+      backdrop-filter: blur(6px);
+      border: 1.5px solid rgba(255,255,255,.6);
+      box-shadow: 0 2px 12px rgba(0,0,0,.18);
+      display: grid; place-items: center;
+      cursor: pointer;
+      font-size: .95rem;
+      color: var(--col-dark);
+      transition: background .2s ease, transform .2s ease, opacity .2s ease;
+      z-index: 10;
+      /* hidden when card is inactive */
+      opacity: 0;
+      pointer-events: none;
+    }
+    .carousel-card.is-active .carousel-arrow {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .carousel-arrow:hover {
+      background: #fff;
+      transform: translateY(-50%) scale(1.08);
+    }
+    .carousel-arrow--prev { left: 16px; }
+    .carousel-arrow--next { right: 16px; }
+    /* disable prev on first, next on last — handled via JS class */
+    .carousel-arrow.disabled {
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+
+    .carousel-card__body { padding: 24px 28px 28px; }
+    .carousel-card__type {
+      font-size: .72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .1em;
+      color: var(--col-accent2);
+      margin-bottom: 6px;
+    }
+    .carousel-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.1rem; font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .carousel-card p { font-size: .875rem; color: var(--col-muted); }
+
+    /* Dot strip below */
+    .carousel-controls {
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; margin-top: 28px;
+    }
+    .carousel-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--col-border);
+      transition: all .4s cubic-bezier(.4,0,.2,1);
+      cursor: pointer;
+      border: none;
+    }
+    .carousel-dot.active {
+      background: var(--col-accent2);
+      width: 28px;
+      border-radius: 4px;
+    }
+
+    @media (max-width: 900px) {
+      .carousel-card { width: 82%; }
+    }
+    @media (max-width: 640px) {
+      .carousel-card { width: 88%; }
+      .carousel-arrow { width: 36px; height: 36px; font-size: .8rem; }
+    }
+
+    /* ── TESTIMONIES ────────────────────────────────────────── */
+    #testimonies {
+      background: var(--col-dark);
+      position: relative; overflow: hidden;
+    }
+    #testimonies .section-label { background: rgba(255,255,255,.08); color: rgba(255,255,255,.6); }
+    #testimonies .section-title { color: #fff; }
+    #testimonies .section-sub { color: rgba(255,255,255,.5); }
+    .testimonies__grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 24px; margin-top: 56px;
+    }
+    .testimony-card {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      transition: background var(--transition);
+    }
+    .testimony-card:hover { background: rgba(255,255,255,.08); }
+    .testimony-stars { color: var(--col-accent); margin-bottom: 16px; font-size: 1rem; }
+    .testimony-card p {
+      font-size: .9rem;
+      color: rgba(255,255,255,.65);
+      margin-bottom: 24px;
+      line-height: 1.7;
+    }
+    .testimony-author { display: flex; align-items: center; gap: 12px; }
+    .testimony-avatar {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: rgba(59,91,219,.3);
+      display: grid; place-items: center;
+      font-family: var(--font-display);
+      font-size: .8rem; font-weight: 700;
+      color: #fff; flex-shrink: 0;
+    }
+    .testimony-author-name {
+      font-family: var(--font-display);
+      font-size: .9rem; font-weight: 600;
+      color: #fff;
+    }
+    .testimony-author-role { font-size: .78rem; color: rgba(255,255,255,.4); }
+
+    /* ── CONTACT / CTA ──────────────────────────────────────── */
+    #contact {
+      background: var(--col-surface);
+    }
+    .contact__inner {
+      background: #0F1623;
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: var(--radius-lg);
+      padding: 72px 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 40px; flex-wrap: wrap;
+    }
+    .contact__inner .section-label { background: rgba(255,255,255,.08); color: rgba(255,255,255,.5); }
+    .contact__inner .section-title { color: #fff; }
+    .contact__inner .section-sub { color: rgba(255,255,255,.55); }
+    .contact__form {
+      display: flex; flex-direction: column; gap: 14px;
+      min-width: 300px; flex: 1;
+    }
+    .contact__form input,
+    .contact__form textarea {
+      background: rgba(255,255,255,.12);
+      border: 1.5px solid rgba(255,255,255,.2);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: .9rem;
+      color: #fff;
+      font-family: var(--font-body);
+      outline: none;
+      transition: border-color var(--transition);
+      resize: none;
+    }
+    .contact__form input::placeholder,
+    .contact__form textarea::placeholder { color: rgba(255,255,255,.45); }
+    .contact__form input:focus,
+    .contact__form textarea:focus { border-color: rgba(255,255,255,.5); }
+    .contact__form textarea { min-height: 100px; }
+
+    /* ── FOOTER ─────────────────────────────────────────────── */
+    footer {
+      background: var(--col-dark);
+      padding: 48px 0 28px;
+      overflow: visible;
+    }
+    .footer__inner {
+      display: grid; grid-template-columns: 2fr 1fr 1fr;
+      gap: 48px; margin-bottom: 40px;
+    }
+    .footer__brand-desc {
+      font-size: .875rem;
+      color: rgba(255,255,255,.4);
+      margin-top: 12px;
+      max-width: 280px;
+      line-height: 1.7;
+    }
+    .footer__col h5 {
+      font-family: var(--font-display);
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.3);
+      margin-bottom: 16px;
+    }
+    .footer__col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer__col ul li a {
+      font-size: .875rem;
+      color: rgba(255,255,255,.5);
+      transition: color var(--transition);
+    }
+    .footer__col ul li a:hover { color: rgba(255,255,255,.9); }
+    .footer__bottom {
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 24px;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .footer__copy {
+      font-size: .8rem; color: rgba(255,255,255,.3);
+    }
+    .footer__socials { display: flex; gap: 10px; }
+    .footer__social {
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.08);
+      display: grid; place-items: center;
+      font-size: .8rem;
+      color: rgba(255,255,255,.5);
+      transition: all var(--transition);
+    }
+    .footer__social:hover { background: rgba(255,255,255,.12); color: #fff; }
+
+    /* ── RESPONSIVE ─────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero__content { grid-template-columns: 1fr; gap: 40px; padding-top: calc(var(--switcher-h, 42px) + 64px + 20px); }
+      .about__grid { grid-template-columns: 1fr; gap: 40px; }
+      .services__grid { grid-template-columns: 1fr; }
+      .testimonies__grid { grid-template-columns: 1fr; }
+      .carousel-card { min-width: calc(80% - 12px); }
+      .footer__inner { grid-template-columns: 1fr 1fr; }
+      .contact__inner { padding: 48px 32px; }
+      .plans__panel-inner { padding: 32px; }
+      .side-indicator { display: none; }
+    }
+    @media (max-width: 640px) {
+      .nav__links, .nav__cta { display: none; }
+      .nav__hamburger { display: flex; }
+      .footer__inner { grid-template-columns: 1fr; }
+      .carousel-card { min-width: 90%; }
+      .hero__stats { grid-template-columns: 1fr 1fr; }
+      .contact__inner {
+        flex-direction: column;
+        padding: 36px 24px;
+      }
+      .contact__form { min-width: unset; width: 100%; }
+      footer { display: block !important; }
+      /* Socials: one per line on mobile */
+      .contact-socials { flex-direction: column !important; }
+      .contact-socials a { width: 100%; justify-content: flex-start !important; }
+    }
+
+    /* Mobile: show intro text above image in about section */
+    .about__mobile-intro { display: none; margin-bottom: 24px; }
+    .about__text-col .section-label,
+    .about__text-col .section-title,
+    .about__text-col .section-sub { display: block; }
+    @media (max-width: 900px) {
+      .about__mobile-intro { display: block; }
+      .about__grid {
+        display: flex; flex-direction: column;
+        gap: 24px;
+      }
+      .about__img-wrap {
+        width: 100%;
+        max-width: 420px;
+        margin: 0 auto;         /* centre it, no side gaps */
+      }
+      .about__img-placeholder {
+        aspect-ratio: 4/5;     /* restore portrait ratio */
+        width: 100%;
+      }
+      .about__accent-card {
+        right: -10px; bottom: -10px; /* keep it within the narrower wrap */
+      }
+      .about__text-col .section-label,
+      .about__text-col .section-title,
+      .about__text-col .section-sub { display: none; }
+    }
+    .fade-up {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .fade-up-delay-1 { transition-delay: .1s; }
+    .fade-up-delay-2 { transition-delay: .2s; }
+    .fade-up-delay-3 { transition-delay: .3s; }
+
+    /* ── STYLE SWITCHER BAR ──────────────────────────────────── */
+    .style-switcher {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+      min-height: 42px;
+      background: #0F1623;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      display: flex; align-items: center; justify-content: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 8px 14px;
+      font-family: 'Inter', sans-serif;
+    }
+    .style-switcher__label {
+      font-size: .68rem; font-weight: 600;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: rgba(255,255,255,.35);
+      margin-right: 8px;
+    }
+    .style-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 5px 14px; border-radius: 6px;
+      font-size: .75rem; font-weight: 600;
+      border: 1.5px solid transparent; cursor: pointer;
+      transition: all .2s ease; text-decoration: none; white-space: nowrap;
+    }
+    .style-btn__dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    /* Tech/Modern */
+    .style-btn--tech { background: rgba(59,91,219,.2); border-color: rgba(59,91,219,.5); color: #7B9FFF; }
+    .style-btn--tech.active { background: #3B5BDB; border-color: #3B5BDB; color: #fff; }
+    .style-btn--tech .style-btn__dot { background: #F59E0B; }
+    /* Relaxed/Warm */
+    .style-btn--warm { background: rgba(180,90,50,.18); border-color: rgba(200,110,60,.4); color: #D4845A; }
+    .style-btn--warm.active { background: #B4633A; border-color: #B4633A; color: #FFF8F0; }
+    .style-btn--warm .style-btn__dot { background: #6B8F5E; }
+    /* Clean/Universal */
+    .style-btn--neutral { background: rgba(91,91,214,.2); border-color: rgba(91,91,214,.5); color: #A5A5F0; }
+    .style-btn--neutral.active { background: #5B5BD6; border-color: #5B5BD6; color: #fff; }
+    .style-btn--neutral .style-btn__dot { background: #F5A623; }
+    .style-switcher__close {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-left: 10px; padding: 5px 14px; border-radius: 6px;
+      font-size: .75rem; font-weight: 600;
+      border: 1.5px solid rgba(255,255,255,.25);
+      background: transparent; color: rgba(255,255,255,.7);
+      cursor: pointer; transition: all .2s ease; white-space: nowrap;
+      font-family: 'Inter', sans-serif;
+    }
+    .style-switcher__close:hover { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.45); color: #fff; }
+
+    /* ── PLAN / PRODUCT TABS: ONE PER LINE ON PHONES ────────── */
+    @media (max-width: 640px) {
+      .plans__tabs { flex-direction: column; width: 100%; }
+      .plans__tab { width: 100%; }
+    }
+
+    /* ── MOBILE MENU (dropdown under the nav, phones only) ───── */
+    .mobile-menu {
+      display: flex;
+      position: fixed;
+      top: calc(var(--switcher-h, 42px) + 64px);
+      left: 0; right: 0;
+      background: var(--col-surface);
+      border-bottom: 1px solid var(--col-border);
+      box-shadow: var(--shadow-md);
+      flex-direction: column;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .3s ease;
+      z-index: 99;
+    }
+    .mobile-menu.is-open { max-height: 420px; }
+    .mobile-menu__link {
+      padding: 16px 24px;
+      font-family: var(--font-display);
+      font-size: .95rem;
+      font-weight: 600;
+      color: var(--col-text);
+      border-bottom: 1px solid var(--col-border);
+    }
+    .mobile-menu__link:last-child { border-bottom: none; }
+    .mobile-menu__link--cta { color: var(--col-accent2); }
+  </style>
+</head>
+<body>
+
+<!-- ── STYLE SWITCHER ───────────────────────────────────────── -->
+<div class="style-switcher">
+  <span class="style-switcher__label">Style Preview</span>
+  <a href="starter-style-main.html" class="style-btn style-btn--tech active">
+    <span class="style-btn__dot"></span>Tech &amp; Modern
+  </a>
+  <a href="starter-style-main-2.html" class="style-btn style-btn--warm">
+    <span class="style-btn__dot"></span>Relaxed &amp; Warm
+  </a>
+  <a href="starter-style-main-3.html" class="style-btn style-btn--neutral">
+    <span class="style-btn__dot"></span>Clean &amp; Universal
+  </a>
+  <button type="button" class="style-switcher__close" onclick="closeSamplePage()">✕ Close samples</button>
+</div>
+
+<script>
+  // Measure the switcher bar's real height (it can wrap to 2+ rows on
+  // narrow phones) and expose it as --switcher-h, so the fixed nav and
+  // the scroll offsets above always clear it, on any device width.
+  (function () {
+    function setSwitcherHeight() {
+      var el = document.querySelector('.style-switcher');
+      if (el) document.documentElement.style.setProperty('--switcher-h', el.offsetHeight + 'px');
+    }
+    setSwitcherHeight();
+    window.addEventListener('resize', function () {
+      clearTimeout(window.__swTimer);
+      window.__swTimer = setTimeout(setSwitcherHeight, 100);
+    });
+    window.addEventListener('load', setSwitcherHeight);
+  })();
+</script>
+
+<!-- ── SIDE INDICATOR ──────────────────────────────────────── -->
+<div class="side-indicator" id="sideIndicator">
+  <div class="side-dot active" data-label="Hero" data-target="hero" onclick="scrollTo('#hero')"></div>
+  <div class="side-dot" data-label="About" data-target="about" onclick="scrollTo('#about')"></div>
+  <div class="side-dot" data-label="Services" data-target="services" onclick="scrollTo('#services')"></div>
+  <div class="side-dot" data-label="Plans" data-target="plans" onclick="scrollTo('#plans')"></div>
+  <div class="side-dot" data-label="Portfolio" data-target="portfolio" onclick="scrollTo('#portfolio')"></div>
+  <div class="side-dot" data-label="Reviews" data-target="testimonies" onclick="scrollTo('#testimonies')"></div>
+  <div class="side-dot" data-label="Contact" data-target="contact" onclick="scrollTo('#contact')"></div>
+</div>
+
+<!-- ── NAV ────────────────────────────────────────────────── -->
+<nav class="nav">
+  <div class="nav__inner">
+    <div class="nav__logo">
+      <div class="nav__logo-box">LOGO</div>
+      Company Name
+    </div>
+    <ul class="nav__links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Plans</a></li>
+      <li><a href="#plans">Details</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#testimonies">Reviews</a></li>
+    </ul>
+    <a href="#contact" class="nav__cta">Contact Us</a>
+    <div class="nav__hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- ── MOBILE MENU ─────────────────────────────────────────── -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" class="mobile-menu__link" onclick="closeMobileMenu()">About</a>
+  <a href="#services" class="mobile-menu__link" onclick="closeMobileMenu()">Plans</a>
+  <a href="#plans" class="mobile-menu__link" onclick="closeMobileMenu()">Details</a>
+  <a href="#portfolio" class="mobile-menu__link" onclick="closeMobileMenu()">Portfolio</a>
+  <a href="#testimonies" class="mobile-menu__link" onclick="closeMobileMenu()">Reviews</a>
+  <a href="#contact" class="mobile-menu__link mobile-menu__link--cta" onclick="closeMobileMenu()">Contact Us</a>
+</div>
+
+<!-- ── HERO ───────────────────────────────────────────────── -->
+<section class="hero" id="hero">
+  <div class="hero__grid"></div>
+  <div class="hero__glow"></div>
+  <div class="hero__glow2"></div>
+  <div class="hero__content">
+    <div>
+      <div class="hero__badge">
+        <div class="hero__badge-dot"></div>
+        Now accepting new clients
+      </div>
+      <h1 class="hero__title">
+        Your <em>headline</em><br>goes right here
+      </h1>
+      <p class="hero__desc">
+        This is your main value proposition. Describe what you do, who you help, and why you're the best choice — in 2–3 punchy sentences.
+      </p>
+      <div class="hero__actions">
+        <a href="#contact" class="btn btn-primary">
+          ✦ Get Started
+        </a>
+        <a href="#portfolio" class="btn btn-outline">
+          See Our Work
+        </a>
+      </div>
+    </div>
+    <div>
+      <div class="hero__card">
+        <div class="hero__card-label">[ Preview / Visual Element ]</div>
+        <div class="hero__mockup">
+          <div class="hero__mockup-bar">
+            <div class="hero__mockup-dot" style="background:#ff5f57"></div>
+            <div class="hero__mockup-dot" style="background:#ffbd2e"></div>
+            <div class="hero__mockup-dot" style="background:#28ca41"></div>
+          </div>
+          <div class="hero__mockup-line" style="width:70%"></div>
+          <div class="hero__mockup-line" style="width:90%"></div>
+          <div class="hero__mockup-line" style="width:55%"></div>
+          <div class="hero__mockup-line" style="width:80%; height:60px; margin-top:14px; border-radius:8px;"></div>
+        </div>
+        <div class="hero__stats">
+          <div class="hero__stat">
+            <span class="hero__stat-n">00+</span>
+            <span class="hero__stat-l">Stat Label</span>
+          </div>
+          <div class="hero__stat">
+            <span class="hero__stat-n">00%</span>
+            <span class="hero__stat-l">Stat Label</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 1: ABOUT ME / COMPANY ──────────────────────── -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="about__grid">
+      <!-- Mobile-only intro shown above image -->
+      <div class="about__mobile-intro">
+        <span class="section-label">Section 1 — About Me / Company</span>
+        <h2 class="section-title" style="margin-top:10px">A bit about<br>who we are</h2>
+        <p class="section-sub">This is your story section. Tell your visitors who you are, your background, your mission and what makes you different. Keep it personal, confident, and focused on the value you bring.</p>
+      </div>
+      <div class="about__img-wrap fade-up">
+        <div class="about__img-placeholder">
+          <svg width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
+          </svg>
+          <span>Your Photo / Image Here</span>
+        </div>
+        <div class="about__accent-card">
+          <strong>10+</strong>
+          <span>Years of Experience</span>
+        </div>
+      </div>
+      <div class="about__text-col">
+        <span class="section-label fade-up">Section 1 — About Me / Company</span>
+        <h2 class="section-title fade-up fade-up-delay-1">A bit about<br>who we are</h2>
+        <p class="section-sub fade-up fade-up-delay-2">
+          This is your story section. Tell your visitors who you are, your background, your mission and what makes you different. Keep it personal, confident, and focused on the value you bring.
+        </p>
+        <div class="about__features">
+          <div class="about__feature fade-up fade-up-delay-1">
+            <div class="about__feature-icon">🎯</div>
+            <div>
+              <h4>Feature / Value 1</h4>
+              <p>Short description of this differentiator or strength. Keep it to one or two sentences.</p>
+            </div>
+          </div>
+          <div class="about__feature fade-up fade-up-delay-2">
+            <div class="about__feature-icon">⚡</div>
+            <div>
+              <h4>Feature / Value 2</h4>
+              <p>Short description of this differentiator or strength. Keep it to one or two sentences.</p>
+            </div>
+          </div>
+          <div class="about__feature fade-up fade-up-delay-3">
+            <div class="about__feature-icon">💎</div>
+            <div>
+              <h4>Feature / Value 3</h4>
+              <p>Short description of this differentiator or strength. Keep it to one or two sentences.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 2: PLANS / PRODUCTS — 3 BOXES ──────────────── -->
+<section class="section" id="services">
+  <div class="container">
+    <div style="text-align:center;">
+      <span class="section-label fade-up">Section 2 — Plans / Products</span>
+      <h2 class="section-title fade-up fade-up-delay-1" style="max-width:480px;margin:0 auto 12px;">Choose the right plan</h2>
+      <p class="section-sub fade-up fade-up-delay-2" style="margin:0 auto;">
+        Each card is one of your plans or products. Show the name, price, a short pitch, and 2–3 key inclusions. The "See full details" link scrolls to the deep-dive section below.
+      </p>
+    </div>
+    <div class="services__grid">
+
+      <!-- Plan 1 -->
+      <div class="service-card fade-up">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+          <div class="service-card__icon" style="margin-bottom:0">🛠️</div>
+          <span class="tag">Entry level</span>
+        </div>
+        <h3>Plan / Product 1</h3>
+        <p>One sentence on what this plan is for and who it's best suited to. Keep it to the point.</p>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:7px;margin-bottom:24px;">
+          <li style="font-size:.85rem;color:var(--col-muted);display:flex;align-items:center;gap:8px"><span style="color:var(--col-accent2);font-weight:700">✓</span> Key inclusion 1</li>
+          <li style="font-size:.85rem;color:var(--col-muted);display:flex;align-items:center;gap:8px"><span style="color:var(--col-accent2);font-weight:700">✓</span> Key inclusion 2</li>
+          <li style="font-size:.85rem;color:var(--col-muted);display:flex;align-items:center;gap:8px"><span style="color:var(--col-accent2);font-weight:700">✓</span> Key inclusion 3</li>
+        </ul>
+        <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:20px;">
+          <span style="font-family:var(--font-display);font-size:1.8rem;font-weight:800;color:var(--col-dark)">$000</span>
+          <span style="font-size:.82rem;color:var(--col-muted)">/ period</span>
+        </div>
+        <a href="#plans" onclick="switchTab(0)" class="service-card__link">See full details →</a>
+      </div>
+
+      <!-- Plan 2 -->
+      <div class="service-card fade-up fade-up-delay-1" style="border-color:var(--col-accent2);box-shadow:0 0 0 2px rgba(59,91,219,.12);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+          <div class="service-card__icon" style="margin-bottom:0">🚀</div>
+          <span class="tag" style="background:rgba(59,91,219,.08);border-color:rgba(59,91,219,.2);color:var(--col-accent2)">Most popular</span>
+        </div>
+        <h3>Plan / Product 2</h3>
+        <p>One sentence on what this plan is for and who it's best suited to. Keep it to the point.</p>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:7px;margin-bottom:24px;">
+          <li style="font-size:.85rem;color:var(--col-muted);display:flex;align-items:center;gap:8px"><span style="color:var(--col-accent2);font-weight:700">✓</span> Everything in Plan 1</li>
+          <li style="font-size:.85rem;color:var(--col-muted);display:flex;align-items:center;gap:8px"><span style="color:var(--col-accent2);font-weight:700">✓</span> Additional feature A</li>
+          <li style="font-size:.85rem;color:var(--col-muted);display:flex;align-items:center;gap:8px"><span style="color:var(--col-accent2);font-weight:700">✓</span> Additional feature B</li>
+        </ul>
+        <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:20px;">
+          <span style="font-family:var(--font-display);font-size:1.8rem;font-weight:800;color:var(--col-dark)">$000</span>
+          <span style="font-size:.82rem;color:var(--col-muted)">/ period</span>
+        </div>
+        <a href="#plans" onclick="switchTab(1)" class="service-card__link">See full details →</a>
+      </div>
+
+      <!-- Plan 3 -->
+      <div class="service-card fade-up fade-up-delay-2">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+          <div class="service-card__icon" style="margin-bottom:0">💎</div>
+          <span class="tag">Best value</span>
+        </div>
+        <h3>Plan / Product 3</h3>
+        <p>One sentence on what this plan is for and who it's best suited to. Keep it to the point.</p>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:7px;margin-bottom:24px;">
+          <li style="font-size:.85rem;color:var(--col-muted);display:flex;align-items:center;gap:8px"><span style="color:var(--col-accent2);font-weight:700">✓</span> Everything in Plan 2</li>
+          <li style="font-size:.85rem;color:var(--col-muted);display:flex;align-items:center;gap:8px"><span style="color:var(--col-accent2);font-weight:700">✓</span> Premium feature 1</li>
+          <li style="font-size:.85rem;color:var(--col-muted);display:flex;align-items:center;gap:8px"><span style="color:var(--col-accent2);font-weight:700">✓</span> Premium feature 2</li>
+        </ul>
+        <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:20px;">
+          <span style="font-family:var(--font-display);font-size:1.8rem;font-weight:800;color:var(--col-dark)">$000</span>
+          <span style="font-size:.82rem;color:var(--col-muted)">/ period</span>
+        </div>
+        <a href="#plans" onclick="switchTab(2)" class="service-card__link">See full details →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 3: PLAN DETAILS — TABBED PANEL ─────────────── -->
+<section class="section" id="plans">
+  <div class="container">
+    <div class="plans__head">
+      <div>
+        <span class="section-label fade-up">Section 3 — Plan Details</span>
+        <h2 class="section-title fade-up fade-up-delay-1">What's included — in full</h2>
+        <p class="section-sub fade-up fade-up-delay-2">Select any plan to see exactly what you get. Use this section to answer every question before the client even asks.</p>
+      </div>
+    </div>
+    <div class="plans__tabs-wrap">
+      <div class="plans__tabs" role="tablist">
+        <button class="plans__tab active" onclick="switchTab(0)" role="tab">🛠️ Plan / Product 1</button>
+        <button class="plans__tab" onclick="switchTab(1)" role="tab">🚀 Plan / Product 2</button>
+        <button class="plans__tab" onclick="switchTab(2)" role="tab">💎 Plan / Product 3</button>
+      </div>
+
+      <!-- Panel 1 -->
+      <div class="plans__panel active" id="panel-0">
+        <div class="plans__panel-inner">
+          <div class="tag" style="margin-bottom:16px">Best for beginners</div>
+          <div class="plans__panel-title">Plan / Product Name 1</div>
+          <p class="plans__panel-desc">Describe who this plan is for, what problem it solves, and the key reason someone would choose it over the others.</p>
+          <div class="plans__features">
+            <div class="plans__feature"><div class="plans__check">✓</div>Feature or inclusion 1</div>
+            <div class="plans__feature"><div class="plans__check">✓</div>Feature or inclusion 2</div>
+            <div class="plans__feature"><div class="plans__check">✓</div>Feature or inclusion 3</div>
+            <div class="plans__feature"><div class="plans__check">✓</div>Feature or inclusion 4</div>
+          </div>
+          <div class="plans__price">
+            <span class="plans__price-n">$000</span>
+            <span class="plans__price-label">/ unit or period</span>
+          </div>
+        </div>
+      </div>
+      <!-- Panel 2 -->
+      <div class="plans__panel" id="panel-1">
+        <div class="plans__panel-inner">
+          <div class="tag" style="margin-bottom:16px">Most popular</div>
+          <div class="plans__panel-title">Plan / Product Name 2</div>
+          <p class="plans__panel-desc">Describe who this plan is for. This is typically your most complete offering — highlight what makes it worth more.</p>
+          <div class="plans__features">
+            <div class="plans__feature"><div class="plans__check">✓</div>Everything in Plan 1</div>
+            <div class="plans__feature"><div class="plans__check">✓</div>Additional feature A</div>
+            <div class="plans__feature"><div class="plans__check">✓</div>Additional feature B</div>
+            <div class="plans__feature"><div class="plans__check">✓</div>Additional feature C</div>
+            <div class="plans__feature"><div class="plans__check">✓</div>Priority support</div>
+          </div>
+          <div class="plans__price">
+            <span class="plans__price-n">$000</span>
+            <span class="plans__price-label">/ unit or period</span>
+          </div>
+        </div>
+      </div>
+      <!-- Panel 3 -->
+      <div class="plans__panel" id="panel-2">
+        <div class="plans__panel-inner">
+          <div class="tag" style="margin-bottom:16px">Best value for power users</div>
+          <div class="plans__panel-title">Plan / Product Name 3</div>
+          <p class="plans__panel-desc">Your premium option. Emphasize ROI, rollover benefits, or anything that makes the higher price feel like a bargain.</p>
+          <div class="plans__features">
+            <div class="plans__feature"><div class="plans__check">✓</div>Everything in Plan 2</div>
+            <div class="plans__feature"><div class="plans__check">✓</div>Premium feature 1</div>
+            <div class="plans__feature"><div class="plans__check">✓</div>Premium feature 2</div>
+            <div class="plans__feature"><div class="plans__check">✓</div>Dedicated account manager</div>
+            <div class="plans__feature"><div class="plans__check">✓</div>Unused credits roll over</div>
+          </div>
+          <div class="plans__price">
+            <span class="plans__price-n">$000</span>
+            <span class="plans__price-label">/ unit or period</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 4: PORTFOLIO — CAROUSEL ────────────────────── -->
+<section class="section" id="portfolio">
+  <div class="container">
+    <div>
+      <span class="section-label fade-up">Section 4 — Portfolio</span>
+      <h2 class="section-title fade-up fade-up-delay-1">Our recent work</h2>
+      <p class="section-sub fade-up fade-up-delay-2">Use this section to show off completed projects. Each card is a case study or work sample.</p>
+    </div>
+    <div class="carousel-wrap">
+      <div class="carousel-track" id="carouselTrack">
+
+        <!-- Card 1 -->
+        <div class="carousel-card is-active">
+          <div class="carousel-card__img" style="background:linear-gradient(135deg,#EEF2FF,#C7D2FE)">
+            <div class="carousel-card__img-label">
+              <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="#3B5BDB" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3 9.75h18M3.75 6h16.5a1.5 1.5 0 0 1 1.5 1.5v9a1.5 1.5 0 0 1-1.5 1.5H3.75a1.5 1.5 0 0 1-1.5-1.5v-9A1.5 1.5 0 0 1 3.75 6z"/></svg>
+              <span style="font-size:.78rem;color:#3B5BDB;">Project Image</span>
+            </div>
+            <button class="carousel-arrow carousel-arrow--prev disabled" onclick="moveCarousel(-1)">←</button>
+            <button class="carousel-arrow carousel-arrow--next" onclick="moveCarousel(1)">→</button>
+          </div>
+          <div class="carousel-card__body">
+            <div class="carousel-card__type">Type of Business</div>
+            <h3>Project / Client Name 1</h3>
+            <p>Short description of what was built, the client's challenge, and the result achieved.</p>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="carousel-card">
+          <div class="carousel-card__img" style="background:linear-gradient(135deg,#FFF7ED,#FED7AA)">
+            <div class="carousel-card__img-label">
+              <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="#F59E0B" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3 9.75h18M3.75 6h16.5a1.5 1.5 0 0 1 1.5 1.5v9a1.5 1.5 0 0 1-1.5 1.5H3.75a1.5 1.5 0 0 1-1.5-1.5v-9A1.5 1.5 0 0 1 3.75 6z"/></svg>
+              <span style="font-size:.78rem;color:#F59E0B;">Project Image</span>
+            </div>
+            <button class="carousel-arrow carousel-arrow--prev" onclick="moveCarousel(-1)">←</button>
+            <button class="carousel-arrow carousel-arrow--next" onclick="moveCarousel(1)">→</button>
+          </div>
+          <div class="carousel-card__body">
+            <div class="carousel-card__type">Type of Business</div>
+            <h3>Project / Client Name 2</h3>
+            <p>Short description of what was built, the client's challenge, and the result achieved.</p>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="carousel-card">
+          <div class="carousel-card__img" style="background:linear-gradient(135deg,#F0FDF4,#BBF7D0)">
+            <div class="carousel-card__img-label">
+              <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="#22C55E" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3 9.75h18M3.75 6h16.5a1.5 1.5 0 0 1 1.5 1.5v9a1.5 1.5 0 0 1-1.5 1.5H3.75a1.5 1.5 0 0 1-1.5-1.5v-9A1.5 1.5 0 0 1 3.75 6z"/></svg>
+              <span style="font-size:.78rem;color:#22C55E;">Project Image</span>
+            </div>
+            <button class="carousel-arrow carousel-arrow--prev" onclick="moveCarousel(-1)">←</button>
+            <button class="carousel-arrow carousel-arrow--next" onclick="moveCarousel(1)">→</button>
+          </div>
+          <div class="carousel-card__body">
+            <div class="carousel-card__type">Type of Business</div>
+            <h3>Project / Client Name 3</h3>
+            <p>Short description of what was built, the client's challenge, and the result achieved.</p>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="carousel-card">
+          <div class="carousel-card__img" style="background:linear-gradient(135deg,#FFF1F2,#FECDD3)">
+            <div class="carousel-card__img-label">
+              <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="#F43F5E" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3 9.75h18M3.75 6h16.5a1.5 1.5 0 0 1 1.5 1.5v9a1.5 1.5 0 0 1-1.5 1.5H3.75a1.5 1.5 0 0 1-1.5-1.5v-9A1.5 1.5 0 0 1 3.75 6z"/></svg>
+              <span style="font-size:.78rem;color:#F43F5E;">Project Image</span>
+            </div>
+            <button class="carousel-arrow carousel-arrow--prev" onclick="moveCarousel(-1)">←</button>
+            <button class="carousel-arrow carousel-arrow--next" onclick="moveCarousel(1)">→</button>
+          </div>
+          <div class="carousel-card__body">
+            <div class="carousel-card__type">Type of Business</div>
+            <h3>Project / Client Name 4</h3>
+            <p>Short description of what was built, the client's challenge, and the result achieved.</p>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+    <div class="carousel-controls" id="carouselDots"></div>
+  </div>
+</section>
+
+<!-- ── SECTION 5: TESTIMONIES ──────────────────────────────── -->
+<section class="section" id="testimonies">
+  <div class="container">
+    <div style="text-align:center;">
+      <span class="section-label fade-up">Section 5 — Testimonies / Reviews</span>
+      <h2 class="section-title fade-up fade-up-delay-1">What clients say</h2>
+      <p class="section-sub fade-up fade-up-delay-2" style="margin:0 auto;">Real words from real people. Collect 3–5 testimonials once your first clients complete their projects.</p>
+    </div>
+    <div class="testimonies__grid">
+      <div class="testimony-card fade-up">
+        <div class="testimony-stars">★★★★★</div>
+        <p>"This is where your client's testimonial goes. Aim for a quote that mentions a specific result, not just generic praise — it builds way more trust."</p>
+        <div class="testimony-author">
+          <div class="testimony-avatar">CL</div>
+          <div>
+            <div class="testimony-author-name">Client Name</div>
+            <div class="testimony-author-role">Business Type / Location</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimony-card fade-up fade-up-delay-1">
+        <div class="testimony-stars">★★★★★</div>
+        <p>"Another client quote here. The most powerful testimonials explain the 'before' situation and how you solved it. Ask guiding questions to get these."</p>
+        <div class="testimony-author">
+          <div class="testimony-avatar">CL</div>
+          <div>
+            <div class="testimony-author-name">Client Name</div>
+            <div class="testimony-author-role">Business Type / Location</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimony-card fade-up fade-up-delay-2">
+        <div class="testimony-stars">★★★★★</div>
+        <p>"Third testimonial slot. You can also embed a Google Review widget here so potential clients can verify the reviews are real — great for trust signals."</p>
+        <div class="testimony-author">
+          <div class="testimony-avatar">CL</div>
+          <div>
+            <div class="testimony-author-name">Client Name</div>
+            <div class="testimony-author-role">Business Type / Location</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT / CTA ───────────────────────────────────────── -->
+<section class="section" id="contact">
+  <div class="container">
+    <div class="contact__inner">
+      <div>
+        <span class="section-label">Get in touch</span>
+        <h2 class="section-title" style="color:#fff">Ready to get started?</h2>
+        <p class="section-sub" style="color:rgba(255,255,255,.7)">
+          Your contact info, working hours, and a quick reassurance ("We reply within 24 hours") go here. Keep the ask low-pressure.
+        </p>
+        <div style="margin-top:24px;display:flex;flex-direction:column;gap:16px">
+
+          <!-- Phone number + action links -->
+          <div>
+            <div style="font-size:1.1rem;font-weight:700;color:#fff;font-family:var(--font-display);margin-bottom:10px">
+              +1 (000) 000-0000
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <!-- Call -->
+              <a href="tel:+10000000000" style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:8px 14px;font-size:.82rem;font-weight:600;color:#fff;text-decoration:none;transition:background .2s" onmouseover="this.style.background='rgba(255,255,255,.18)'" onmouseout="this.style.background='rgba(255,255,255,.1)'">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24 11.36 11.36 0 0 0 3.57.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z"/></svg>
+                Call
+              </a>
+              <!-- Text/SMS -->
+              <a href="sms:+10000000000" style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:8px 14px;font-size:.82rem;font-weight:600;color:#fff;text-decoration:none;transition:background .2s" onmouseover="this.style.background='rgba(255,255,255,.18)'" onmouseout="this.style.background='rgba(255,255,255,.1)'">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>
+                Text
+              </a>
+              <!-- WhatsApp -->
+              <a href="https://wa.me/10000000000" target="_blank" style="display:inline-flex;align-items:center;gap:7px;background:rgba(37,211,102,.15);border:1px solid rgba(37,211,102,.3);border-radius:8px;padding:8px 14px;font-size:.82rem;font-weight:600;color:#25D366;text-decoration:none;transition:background .2s" onmouseover="this.style.background='rgba(37,211,102,.25)'" onmouseout="this.style.background='rgba(37,211,102,.15)'">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+                WhatsApp
+              </a>
+            </div>
+          </div>
+
+          <!-- Social media links -->
+          <div>
+            <div style="font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:12px">Follow us</div>
+            <div class="contact-socials" style="display:flex;gap:10px;flex-wrap:wrap">
+
+              <!-- Instagram -->
+              <a href="https://instagram.com/yourhandle" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px 16px;font-size:.85rem;font-weight:600;color:#fff;text-decoration:none;transition:background .2s" onmouseover="this.style.background='rgba(255,255,255,.16)'" onmouseout="this.style.background='rgba(255,255,255,.08)'">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="url(#ig-grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <defs>
+                    <linearGradient id="ig-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#f09433"/>
+                      <stop offset="25%" stop-color="#e6683c"/>
+                      <stop offset="50%" stop-color="#dc2743"/>
+                      <stop offset="75%" stop-color="#cc2366"/>
+                      <stop offset="100%" stop-color="#bc1888"/>
+                    </linearGradient>
+                  </defs>
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                  <circle cx="12" cy="12" r="4"/>
+                  <circle cx="17.5" cy="6.5" r="1" fill="url(#ig-grad)" stroke="none"/>
+                </svg>
+                @yourhandle
+              </a>
+
+              <!-- Facebook -->
+              <a href="https://facebook.com/yourpage" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px 16px;font-size:.85rem;font-weight:600;color:#fff;text-decoration:none;transition:background .2s" onmouseover="this.style.background='rgba(255,255,255,.16)'" onmouseout="this.style.background='rgba(255,255,255,.08)'">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2">
+                  <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.514c-1.491 0-1.956.93-1.956 1.886v2.268h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/>
+                </svg>
+                Your Page
+              </a>
+
+              <!-- TikTok -->
+              <a href="https://tiktok.com/@yourhandle" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px 16px;font-size:.85rem;font-weight:600;color:#fff;text-decoration:none;transition:background .2s" onmouseover="this.style.background='rgba(255,255,255,.16)'" onmouseout="this.style.background='rgba(255,255,255,.08)'">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/>
+                </svg>
+                @yourhandle
+              </a>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="contact__form">
+        <div style="font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:4px">Contact us</div>
+        <input type="text" placeholder="Your name" />
+        <input type="email" placeholder="Your email" />
+        <input type="text" placeholder="Subject / Service you're interested in" />
+        <textarea placeholder="Tell us a bit about your project or question…"></textarea>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;background:#fff;color:var(--col-accent2)">
+          Send Message ✦
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ──────────────────────────────────────────────── -->
+<footer>
+  <div class="container">
+    <div class="footer__inner">
+      <div>
+        <div class="nav__logo" style="color:#fff">
+          <div class="nav__logo-box">LOGO</div>
+          Company Name
+        </div>
+        <p class="footer__brand-desc">
+          Short tagline or brand description goes here. Keep it to 1–2 sentences about who you serve and your core promise.
+        </p>
+      </div>
+      <div class="footer__col">
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Plans</a></li>
+          <li><a href="#plans">Plan Details</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#testimonies">Reviews</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="#">hello@yourcompany.com</a></li>
+          <li><a href="#">+1 (000) 000-0000</a></li>
+          <li><a href="#">WhatsApp</a></li>
+          <li><a href="#">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span class="footer__copy">© 2024 Company Name. All rights reserved.</span>
+      <div class="footer__socials">
+        <a href="https://instagram.com/yourhandle" target="_blank" class="footer__social" title="Instagram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://facebook.com/yourpage" target="_blank" class="footer__social" title="Facebook">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.514c-1.491 0-1.956.93-1.956 1.886v2.268h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+        </a>
+        <a href="https://tiktok.com/@yourhandle" target="_blank" class="footer__social" title="TikTok">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
+        </a>
+        <a href="https://wa.me/10000000000" target="_blank" class="footer__social" title="WhatsApp">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── TABS ──────────────────────────────────────────────────
+  // ── MOBILE MENU ──────────────────────────────────────────
+  function toggleMobileMenu() {
+    document.getElementById('mobileMenu').classList.toggle('is-open');
+    document.querySelector('.nav__hamburger').classList.toggle('is-open');
+  }
+  function closeMobileMenu() {
+    document.getElementById('mobileMenu').classList.remove('is-open');
+    document.querySelector('.nav__hamburger').classList.remove('is-open');
+  }
+  document.querySelector('.nav__hamburger').addEventListener('click', toggleMobileMenu);
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 640) closeMobileMenu();
+  });
+
+  function switchTab(idx) {
+    document.querySelectorAll('.plans__tab').forEach((t,i) => t.classList.toggle('active', i===idx));
+    document.querySelectorAll('.plans__panel').forEach((p,i) => p.classList.toggle('active', i===idx));
+  }
+
+  // ── CAROUSEL ─────────────────────────────────────────────
+  const track      = document.getElementById('carouselTrack');
+  const dotsWrap   = document.getElementById('carouselDots');
+  const cards      = Array.from(track.children);
+  let   cIdx       = 0;
+
+  function buildDots() {
+    dotsWrap.innerHTML = '';
+    cards.forEach((_, i) => {
+      const d = document.createElement('button');
+      d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+      d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+      d.onclick = () => goTo(i);
+      dotsWrap.appendChild(d);
+    });
+  }
+
+  function goTo(idx) {
+    cIdx = Math.max(0, Math.min(idx, cards.length - 1));
+
+    // ── Centering math ───────────────────────────────────────
+    // Use the card's actual rendered width + gap (28px from CSS gap).
+    // offsetLeft is unreliable for card 0 (returns 0 regardless of
+    // transforms), so we derive position from index instead.
+    const wrapW   = track.parentElement.offsetWidth;
+    const cardW   = cards[0].offsetWidth;          // all cards same width
+    const gap     = 28;
+    const stepW   = cardW + gap;
+    // Position of card's left edge relative to track origin
+    const cardLeft = cIdx * stepW;
+    // How much to shift track so this card is centred in wrapW
+    const offset  = cardLeft - (wrapW - cardW) / 2;
+    track.style.transform = `translateX(${-offset}px)`;
+
+    // Active class
+    cards.forEach((c, i) => c.classList.toggle('is-active', i === cIdx));
+
+    // Arrow disabled states (only on the active card — others are hidden)
+    const activeCard = cards[cIdx];
+    activeCard.querySelector('.carousel-arrow--prev')
+      .classList.toggle('disabled', cIdx === 0);
+    activeCard.querySelector('.carousel-arrow--next')
+      .classList.toggle('disabled', cIdx === cards.length - 1);
+
+    // Dots
+    dotsWrap.querySelectorAll('.carousel-dot')
+      .forEach((d, i) => d.classList.toggle('active', i === cIdx));
+  }
+
+  function moveCarousel(dir) { goTo(cIdx + dir); }
+
+  switchTab(0); // always start on Plan / Product 1
+  buildDots();
+  // Double rAF: first frame commits layout, second frame reads correct dimensions.
+  // Single rAF is too early on mobile — offsetWidth can still be 0.
+  requestAnimationFrame(() => requestAnimationFrame(() => goTo(0)));
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => goTo(cIdx), 80);
+  });
+
+  // ── SWIPE SUPPORT ────────────────────────────────────────
+  // Pure touch events — most reliable across mobile and touchscreen
+  // laptops. A hasSwiped flag ensures each gesture fires exactly once,
+  // preventing double-moves on hybrid devices.
+  let swipeStartX = 0;
+  let swipeStartY = 0;
+  let hasSwiped   = false;
+
+  track.addEventListener('touchstart', e => {
+    swipeStartX = e.touches[0].clientX;
+    swipeStartY = e.touches[0].clientY;
+    hasSwiped   = false;
+  }, { passive: true });
+
+  track.addEventListener('touchmove', e => {
+    if (hasSwiped) return;
+    const dx = e.touches[0].clientX - swipeStartX;
+    const dy = e.touches[0].clientY - swipeStartY;
+    // Only intercept clearly horizontal gestures
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 10) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+
+  track.addEventListener('touchend', e => {
+    if (hasSwiped) return;
+    const dx = e.changedTouches[0].clientX - swipeStartX;
+    if (Math.abs(dx) >= 50) {
+      hasSwiped = true;
+      moveCarousel(dx < 0 ? 1 : -1);
+    }
+  }, { passive: true });
+
+  // ── SCROLL ANIMATIONS ─────────────────────────────────────
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // ── SIDE INDICATOR ────────────────────────────────────────
+  const sections = ['hero','about','services','plans','portfolio','testimonies','contact'];
+  const dots = document.querySelectorAll('.side-dot');
+  function updateDots() {
+    let current = 0;
+    sections.forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top <= window.innerHeight * 0.5) current = i;
+    });
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+  window.addEventListener('scroll', updateDots, { passive: true });
+
+  function scrollTo(sel) { document.querySelector(sel)?.scrollIntoView({ behavior: 'smooth' }); }
+
+  /* ── CLOSE SAMPLES ──────────────────────────────────────── */
+  function closeSamplePage() {
+    // Works if this tab was opened via window.open()/target="_blank" from a script context
+    window.close();
+    // Fallback: if the tab is still here after a moment, the browser blocked the close
+    // (common when it wasn't opened by a script) — send the visitor back home instead.
+    setTimeout(function () {
+      if (!window.closed) window.location.href = '/';
+    }, 300);
+  }
+</script>
+</body>
+</html>
