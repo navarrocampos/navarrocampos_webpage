@@ -3,7 +3,7 @@ import { NCLogo } from './NCLogo';
 const LINKS = [
   { href: '#services',        label: 'Services' },
   { href: '#maintenance',     label: 'Maintenance' },
-  { href: '#recommendations', label: 'Who We Help' },
+  { href: '#recommendations', label: 'Portfolio' },
   { href: '#faq',             label: 'FAQ' },
   { href: '#contact',         label: 'Contact' },
 ];

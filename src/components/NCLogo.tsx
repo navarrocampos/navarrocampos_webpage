@@ -14,7 +14,7 @@ export function NCLogo({ variant, className }: NCLogoProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="77 139 346 224"
+      viewBox="77 139 346 204.5"
       className={className}
       aria-hidden="true"
     >
@@ -47,15 +47,15 @@ export function NCLogo({ variant, className }: NCLogoProps) {
         NC
       </text>
       <text
-        x="250" y="353"
+        x="250" y="331.5"
         textAnchor="middle"
         fontFamily="Arial, sans-serif"
-        fontSize="34"
+        fontSize="22"
         fontWeight="600"
         fill={isLight ? '#3A5A78' : '#9AAABF'}
-        letterSpacing="10"
+        letterSpacing="4"
       >
-        SERVICES
+        NAVARRO CAMPOS
       </text>
     </svg>
   );

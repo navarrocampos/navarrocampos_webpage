@@ -67,7 +67,7 @@ const plans: Plan[] = [
     ],
     cta: [
       { label: 'Get a quote',      href: '#contact',               cls: 'plan-cta--coral' },
-      { label: 'See Growth Style', href: 'growth-style-main.html', cls: 'plan-cta--coral-ghost', target: '_blank' },
+      { label: 'See Growth Style', href: '/mexican-restaurant-concept/index.html', cls: 'plan-cta--coral-ghost', target: '_blank' },
     ],
   },
   {

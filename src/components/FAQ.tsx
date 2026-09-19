@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { withCad } from './withCad';
 
 interface FaqItem {
   id: string;
   question: string;
-  answer: string;
+  answer: ReactNode;
 }
 
 const FAQS: FaqItem[] = [
@@ -15,6 +15,25 @@ const FAQS: FaqItem[] = [
     question: 'Can I hire your web design services if I am located outside of Canada?',
     answer:
       "Yes, absolutely. We operate 100% remotely and build professional websites for small businesses, freelancers, and independent contractors worldwide. We primarily coordinate via WhatsApp and email to ensure seamless communication, regardless of your time zone.",
+  },
+  {
+    id: 'faq-who-we-serve',
+    question: 'What types of businesses and individuals do you design websites for?',
+    answer: (
+      <>
+        <p>
+          We build professional websites for an incredibly wide range of clients globally. Our
+          services are tailored for any small business, solo entrepreneur, or independent
+          professional looking to establish a strong online presence. This includes:
+        </p>
+        <ul className="faq-answer-list">
+          <li><strong>Professional Services:</strong> Accountants, consultants, virtual assistants, and real estate agents.</li>
+          <li><strong>Independent Contractors &amp; Trades:</strong> Electricians, plumbers, landscapers, handymen, and home cleaners.</li>
+          <li><strong>Creative Individuals &amp; Solo Creators:</strong> Tutors, fitness coaches, authors, artists, and freelancers.</li>
+          <li><strong>Local Service Businesses:</strong> Salons, spas, cafes, bakers, and boutique shops.</li>
+        </ul>
+      </>
+    ),
   },
   {
     id: 'faq-whats-included',
@@ -80,7 +99,7 @@ export function FAQ() {
                   aria-labelledby={`${item.id}-button`}
                   hidden={!isOpen}
                 >
-                  <p>{withCad(item.answer)}</p>
+                  {typeof item.answer === 'string' ? <p>{withCad(item.answer)}</p> : item.answer}
                 </div>
               </div>
             );

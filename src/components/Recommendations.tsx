@@ -1,126 +1,298 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
-const TABS = [
+interface PortfolioItem {
+  id: string;
+  client: string;
+  business: string;
+  build: string;
+  /** Omit for a "Coming Soon" placeholder card. */
+  url?: string;
+}
+
+/**
+ * Add more entries here as new client sites launch — the carousel is built
+ * to loop infinitely regardless of how many items are in this list. Keep
+ * AmbarLingua (or whichever is your best example) first so it centers by
+ * default when the page loads.
+ */
+const PORTFOLIO: PortfolioItem[] = [
   {
-    id: 'portfolio',
-    label: 'Portfolio',
-    title: 'Portfolio',
-    body: 'Placeholder content for the Portfolio option. This area will soon feature a curated collection of your best work, projects, and client highlights.',
-    items: ['Sample project showcase', 'Short case-study summary', 'Call-to-action section'],
-    visualClass: 'tab-visual--blue',
-    icon: '🖼️',
-    visualLabel: <>Placeholder: <strong>Portfolio</strong><br /><span style={{ fontSize: '0.8rem', opacity: 0.8 }}>Coming soon</span></>,
+    id: 'ambarlingua',
+    client: 'AmbarLingua',
+    url: 'https://ambarlingua.com/',
+    business: 'Teaching - English school',
+    build: 'Starter',
   },
   {
-    id: 'starter',
-    label: 'Starter',
-    title: 'Starter',
-    body: 'Placeholder content for the Starter package. This section will explain the one-page website experience, making it easy to introduce your business quickly.',
-    items: ['Simple one-page layout', 'Essential contact details', 'Fast launch experience'],
-    visualClass: 'tab-visual--coral',
-    icon: '📄',
-    visualLabel: <>Placeholder: <strong>Starter</strong><br /><span style={{ fontSize: '0.8rem', opacity: 0.8 }}>1 page website</span></>,
+    id: 'coming-soon-1',
+    client: 'Coming Soon',
+    business: 'New project',
+    build: 'TBD',
   },
   {
-    id: 'growth',
-    label: 'Growth',
-    title: 'Growth',
-    body: 'Placeholder content for the Growth package. This area will highlight the expanded three-page structure for businesses that want more detail and more room to grow.',
-    items: ['Three-page website structure', 'More detail for services and about', 'Expanded content layout'],
-    visualClass: 'tab-visual--mint',
-    icon: '📚',
-    visualLabel: <>Placeholder: <strong>Growth</strong><br /><span style={{ fontSize: '0.8rem', opacity: 0.8 }}>3 pages website</span></>,
-  },
-  {
-    id: 'all',
-    label: 'All',
-    title: 'All',
-    body: 'Placeholder content for the All option. This section will eventually bring together the full range of package ideas and show how each one fits your goals.',
-    items: ['Overview of all options', 'Quick comparison notes', 'Suggested next step'],
-    visualClass: 'tab-visual--blue',
-    icon: '✨',
-    visualLabel: <>Placeholder: <strong>All options</strong><br /><span style={{ fontSize: '0.8rem', opacity: 0.8 }}>Overview coming soon</span></>,
+    id: 'coming-soon-2',
+    client: 'Coming Soon',
+    business: 'New project',
+    build: 'TBD',
   },
 ];
 
-export function Recommendations() {
-  const [activeId, setActiveId] = useState(TABS[0].id);
-
-  /* Keyboard navigation: arrow keys move between tabs */
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>, currentIdx: number) => {
-    let nextIdx: number | null = null;
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextIdx = (currentIdx + 1) % TABS.length;
-    else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') nextIdx = (currentIdx - 1 + TABS.length) % TABS.length;
-    else if (e.key === 'Home') nextIdx = 0;
-    else if (e.key === 'End') nextIdx = TABS.length - 1;
-
-    if (nextIdx !== null) {
-      e.preventDefault();
-      setActiveId(TABS[nextIdx].id);
-      document.getElementById(`btn-${TABS[nextIdx].id}`)?.focus();
-    }
-  };
-
-  const activeTab = TABS.find(t => t.id === activeId)!;
+function PortfolioCard({
+  item,
+  realIndex,
+  isActive,
+}: {
+  item: PortfolioItem;
+  realIndex: number;
+  isActive: boolean;
+}) {
+  const isComingSoon = !item.url;
 
   return (
-    <section className="recommendations" id="recommendations" aria-labelledby="rec-heading">
+    <div
+      className={`carousel-card${isActive ? ' is-active' : ''}`}
+      data-real-index={realIndex}
+    >
+      <button
+        className="carousel-arrow carousel-arrow--prev"
+        type="button"
+        aria-label="Previous project"
+        data-carousel-nav="prev"
+      >
+        ←
+      </button>
+      <button
+        className="carousel-arrow carousel-arrow--next"
+        type="button"
+        aria-label="Next project"
+        data-carousel-nav="next"
+      >
+        →
+      </button>
+
+      <div className="portfolio-card-face">
+        {isComingSoon ? (
+          <div className="portfolio-coming-soon" aria-hidden="true">
+            <span className="portfolio-coming-soon-icon">🚧</span>
+          </div>
+        ) : (
+          <iframe
+            src={item.url}
+            className="portfolio-preview-iframe"
+            title={`${item.client} website preview`}
+            loading="lazy"
+            tabIndex={-1}
+            aria-hidden="true"
+          />
+        )}
+
+        <div className={`portfolio-face-overlay${isComingSoon ? ' portfolio-face-overlay--empty' : ''}`}>
+          {!isComingSoon && (
+            <div className="portfolio-badge-row">
+              <span className="portfolio-badge">{item.business}</span>
+              <span className="portfolio-badge portfolio-badge--build">{item.build} build</span>
+            </div>
+          )}
+
+          <h3 className="portfolio-client-name">{item.client}</h3>
+
+          {item.url ? (
+            <a
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="portfolio-visit-link"
+            >
+              Visit live site ↗
+            </a>
+          ) : (
+            <span className="portfolio-coming-soon-tag">More projects on the way</span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const GAP = 24; // keep in sync with .carousel-track { gap } in globals.css
+
+export function Recommendations() {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const tIdxRef = useRef(1);
+  const isWrappingRef = useRef(false);
+  const resizeTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const [activeReal, setActiveReal] = useState(0);
+
+  const realCount = PORTFOLIO.length;
+
+  // Track layout: [cloneOfLast, real0, real1, ..., real(N-1), cloneOfFirst]
+  const trackItems =
+    realCount === 0
+      ? []
+      : [
+          { item: PORTFOLIO[realCount - 1], real: realCount - 1, key: 'clone-start' },
+          ...PORTFOLIO.map((item, i) => ({ item, real: i, key: `real-${i}` })),
+          { item: PORTFOLIO[0], real: 0, key: 'clone-end' },
+        ];
+
+  const render = useCallback((withTransition: boolean) => {
+    const track = trackRef.current;
+    if (!track) return;
+    if (!withTransition) track.classList.add('no-anim');
+
+    const cards = Array.from(track.children) as HTMLElement[];
+    if (cards.length === 0) return;
+
+    const wrapW = track.parentElement ? track.parentElement.offsetWidth : 0;
+    const cardW = cards[0].offsetWidth;
+    const stepW = cardW + GAP;
+    const cardLeft = tIdxRef.current * stepW;
+    const offset = cardLeft - (wrapW - cardW) / 2;
+    track.style.transform = `translateX(${-offset}px)`;
+
+    const activeCard = cards[tIdxRef.current];
+    const realIdx = activeCard ? Number(activeCard.dataset.realIndex) : 0;
+    cards.forEach((c, i) => c.classList.toggle('is-active', i === tIdxRef.current));
+    setActiveReal(realIdx);
+
+    if (!withTransition) {
+      void track.offsetHeight;
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          track.classList.remove('no-anim');
+          isWrappingRef.current = false;
+        });
+      });
+    }
+  }, []);
+
+  const goTo = useCallback(
+    (newTIdx: number) => {
+      if (isWrappingRef.current) return;
+      tIdxRef.current = newTIdx;
+      render(true);
+    },
+    [render]
+  );
+
+  const moveCarousel = useCallback((dir: number) => goTo(tIdxRef.current + dir), [goTo]);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track || realCount === 0) return;
+
+    const handleTransitionEnd = (e: TransitionEvent) => {
+      if (e.target !== track || e.propertyName !== 'transform') return;
+      const total = track.children.length;
+      if (tIdxRef.current === 0) {
+        isWrappingRef.current = true;
+        tIdxRef.current = realCount;
+        render(false);
+      } else if (tIdxRef.current === total - 1) {
+        isWrappingRef.current = true;
+        tIdxRef.current = 1;
+        render(false);
+      }
+    };
+
+    const handleNavClick = (e: Event) => {
+      const target = (e.target as HTMLElement).closest('[data-carousel-nav]');
+      if (!target) return;
+      moveCarousel(target.getAttribute('data-carousel-nav') === 'prev' ? -1 : 1);
+    };
+
+    let swipeStartX = 0;
+    let swipeStartY = 0;
+    let hasSwiped = false;
+
+    const onTouchStart = (e: TouchEvent) => {
+      swipeStartX = e.touches[0].clientX;
+      swipeStartY = e.touches[0].clientY;
+      hasSwiped = false;
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      if (hasSwiped) return;
+      const dx = e.touches[0].clientX - swipeStartX;
+      const dy = e.touches[0].clientY - swipeStartY;
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 10) e.preventDefault();
+    };
+    const onTouchEnd = (e: TouchEvent) => {
+      if (hasSwiped) return;
+      const dx = e.changedTouches[0].clientX - swipeStartX;
+      if (Math.abs(dx) >= 50) {
+        hasSwiped = true;
+        moveCarousel(dx < 0 ? 1 : -1);
+      }
+    };
+
+    const handleResize = () => {
+      clearTimeout(resizeTimer.current);
+      resizeTimer.current = setTimeout(() => render(false), 80);
+    };
+
+    track.addEventListener('transitionend', handleTransitionEnd);
+    track.addEventListener('click', handleNavClick);
+    track.addEventListener('touchstart', onTouchStart, { passive: true });
+    track.addEventListener('touchmove', onTouchMove, { passive: false });
+    track.addEventListener('touchend', onTouchEnd, { passive: true });
+    window.addEventListener('resize', handleResize);
+
+    const raf1 = requestAnimationFrame(() => {
+      requestAnimationFrame(() => render(false));
+    });
+
+    return () => {
+      track.removeEventListener('transitionend', handleTransitionEnd);
+      track.removeEventListener('click', handleNavClick);
+      track.removeEventListener('touchstart', onTouchStart);
+      track.removeEventListener('touchmove', onTouchMove);
+      track.removeEventListener('touchend', onTouchEnd);
+      window.removeEventListener('resize', handleResize);
+      cancelAnimationFrame(raf1);
+      clearTimeout(resizeTimer.current);
+    };
+  }, [render, moveCarousel, realCount]);
+
+  return (
+    <section className="recommendations" id="recommendations" aria-labelledby="portfolio-heading">
       <div className="section-container">
 
         <div className="section-header">
-          <span className="section-eyebrow">Who We Help</span>
-          <h2 className="section-title" id="rec-heading">Find your fit — in seconds.</h2>
-          <p className="section-subtitle">Select your type of business below and see exactly what we&apos;d build for you.</p>
+          <span className="section-eyebrow">Portfolio</span>
+          <h2 className="section-title" id="portfolio-heading">See what we&apos;ve built.</h2>
+          <p className="section-subtitle">
+            Explore real client websites, built and delivered by NavarroCampos Services.
+          </p>
         </div>
 
-        {/* Tab buttons */}
-        <div className="tabs" role="tablist" aria-label="Website package options">
-          {TABS.map((tab, idx) => (
-            <button
-              key={tab.id}
-              id={`btn-${tab.id}`}
-              role="tab"
-              aria-selected={tab.id === activeId}
-              aria-controls={`panel-${tab.id}`}
-              className={`tab${tab.id === activeId ? ' tab--active' : ''}`}
-              onClick={() => setActiveId(tab.id)}
-              onKeyDown={e => handleKeyDown(e, idx)}
-            >
-              {tab.label}
-            </button>
-          ))}
+        <div className="carousel-wrap">
+          <div className="carousel-track" ref={trackRef}>
+            {trackItems.map((entry, i) => (
+              <PortfolioCard
+                key={entry.key}
+                item={entry.item}
+                realIndex={entry.real}
+                isActive={i === 1}
+              />
+            ))}
+          </div>
         </div>
 
-        {/* Tab panel — only the active tab renders visually; others hidden for a11y */}
-        <div className="tab-panels">
-          {TABS.map(tab => (
-            <div
-              key={tab.id}
-              id={`panel-${tab.id}`}
-              role="tabpanel"
-              aria-labelledby={`btn-${tab.id}`}
-              aria-hidden={tab.id !== activeId}
-              className={`tab-panel${tab.id === activeId ? ' tab-panel--active' : ''}`}
-            >
-              <div className="tab-content">
-                <div className="tab-text">
-                  <h3 className="tab-title">{tab.title}</h3>
-                  <p className="tab-body">{tab.body}</p>
-                  <ul className="tab-list">
-                    {tab.items.map((item, i) => <li key={i}>{item}</li>)}
-                  </ul>
-                  <a href="#contact" className="btn btn--primary btn--sm">Get a Quote</a>
-                </div>
-                <div className={`tab-visual ${tab.visualClass}`} aria-hidden="true">
-                  <div className="tab-visual-icon">{tab.icon}</div>
-                  <div className="tab-visual-label">{tab.visualLabel}</div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        {realCount > 1 && (
+          <div className="carousel-controls">
+            {PORTFOLIO.map((item, i) => (
+              <button
+                key={item.id}
+                type="button"
+                className={`carousel-dot${i === activeReal ? ' active' : ''}`}
+                aria-label={`Go to ${item.client}`}
+                onClick={() => goTo(i + 1)}
+              />
+            ))}
+          </div>
+        )}
 
       </div>
     </section>

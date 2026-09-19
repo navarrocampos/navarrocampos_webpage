@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu — Mexican Restaurant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --forest:#132118;
+    --forest-2:#1A2C20;
+    --card:#1E3226;
+    --gold:#C9A24B;
+    --gold-light:#DEBE73;
+    --cream:#F2ECDC;
+    --dim:#8FA294;
+    --line:rgba(242,236,220,0.08);
+    --line-strong:rgba(201,162,75,0.28);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;color:var(--cream);font-family:'Jost',sans-serif;font-size:17px;line-height:1.65;
+    background-color:var(--forest);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cg fill='none' stroke='%23C9A24B' stroke-opacity='0.055' stroke-width='1.1'%3E%3Cpath d='M40 260 Q34 160 8 90 Q26 150 40 260'/%3E%3Cpath d='M40 260 Q46 160 72 90 Q54 150 40 260'/%3E%3Cpath d='M40 260 Q20 190 -30 150 Q10 180 40 260'/%3E%3Cpath d='M40 260 Q60 190 110 150 Q70 180 40 260'/%3E%3Cpath d='M170 250 Q164 150 138 80 Q156 140 170 250'/%3E%3Cpath d='M170 250 Q176 150 202 80 Q184 140 170 250'/%3E%3Cpath d='M170 250 Q150 180 100 140 Q140 170 170 250'/%3E%3Cpath d='M170 250 Q190 180 240 140 Q200 170 170 250'/%3E%3C/g%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.025 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+      linear-gradient(180deg,
+        #132118 0%,
+        #1A2C20 10%,
+        #223A26 20%,
+        #2B3E24 30%,
+        #1E3226 40%,
+        #24361F 50%,
+        #1A2C20 60%,
+        #223424 70%,
+        #17281D 80%,
+        #1A2C20 90%,
+        #132118 100%);
+    background-repeat:repeat,repeat,no-repeat;
+    background-attachment:fixed,fixed,scroll;
+    background-size:260px 260px,220px 220px,100% 100%;
+  }
+  h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:600;margin:0 0 .3em;color:var(--cream);}
+  a{color:inherit;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 30px;}
+
+  .logo{display:flex;align-items:center;gap:12px;min-width:0;text-decoration:none;cursor:pointer;}
+  .logo-mark{width:40px;height:40px;border-radius:0 50% 0 50%;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .2s ease;}
+  .logo:hover .logo-mark{border-color:var(--gold-light);}
+  .logo:hover .brand{color:var(--gold-light);}
+  .logo-mark svg{width:20px;height:20px;}
+  .brand{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--cream);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .2s ease;}
+  .brand span{color:var(--gold-light);}
+  nav.site-nav{position:sticky;top:0;z-index:60;background:rgba(19,33,24,0.88);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  nav.site-nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 30px;flex-wrap:nowrap;}
+  .navlinks{display:flex;gap:30px;font-size:15px;color:var(--cream);font-weight:600;flex-shrink:0;}
+  .navlinks a{text-decoration:none;}
+  .navlinks a:hover,.navlinks a.current{color:var(--gold-light);}
+  .menu-toggle{display:none;background:none;border:none;color:var(--cream);cursor:pointer;padding:6px;flex-shrink:0;align-items:center;justify-content:center;}
+  .menu-toggle svg{width:26px;height:26px;}
+  .mobile-menu{display:none;flex-direction:column;background:rgba(19,33,24,0.97);border-top:1px solid var(--line);}
+  .mobile-menu a{padding:14px 30px;text-decoration:none;color:var(--cream);font-weight:600;font-size:15px;border-bottom:1px solid var(--line);}
+  .mobile-menu a:hover{color:var(--gold-light);}
+  .mobile-menu.open{display:flex;}
+  @media(max-width:760px){.navlinks{display:none;}.menu-toggle{display:flex;}}
+  @media(min-width:761px){.mobile-menu{display:none !important;}}
+
+  .menu-hero{padding:56px 0 30px;text-align:center;}
+  .menu-hero .kicker{color:var(--gold-light);font-style:italic;font-weight:700;font-family:'Cormorant Garamond',serif;font-size:20px;margin-bottom:10px;}
+  .menu-hero h1{font-size:48px;line-height:1.1;}
+  .menu-hero p{color:var(--dim);max-width:52ch;margin:16px auto 0;}
+  .ornament{width:130px;height:14px;margin:22px auto 0;opacity:.75;display:block;}
+  @media(max-width:600px){.menu-hero h1{font-size:34px;}}
+
+  .menu-index-wrap{position:sticky;top:81px;z-index:50;background:rgba(19,33,24,0.94);backdrop-filter:blur(8px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .menu-index{display:flex;gap:6px;overflow-x:auto;padding:14px 30px;max-width:1120px;margin:0 auto;scrollbar-width:none;}
+  .menu-index::-webkit-scrollbar{display:none;}
+  .menu-index a{flex-shrink:0;padding:9px 18px;border:1px solid var(--line-strong);border-radius:2px;font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;color:var(--dim);white-space:nowrap;transition:color .2s ease, border-color .2s ease, background .2s ease;}
+  .menu-index a:hover{color:var(--gold-light);border-color:var(--gold);}
+  .menu-index a.active{color:#211A08;background:var(--gold);border-color:var(--gold);}
+
+  .menu-body{max-width:1120px;margin:0 auto;padding:12px 30px 80px;}
+
+  .menu-course{padding:32px 0 4px;scroll-margin-top:150px;}
+  .menu-course + .menu-course{border-top:1px solid var(--line);}
+  .course-head{text-align:center;margin-bottom:24px;}
+  .course-head .kicker{color:var(--gold-light);font-style:italic;font-family:'Cormorant Garamond',serif;font-size:17px;margin-bottom:2px;}
+  .course-head h2{font-size:34px;}
+  .course-head .rule{width:60px;height:1px;background:var(--gold);margin:10px auto 0;opacity:.6;}
+
+  .dish-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px 48px;}
+  @media(max-width:760px){.dish-grid{grid-template-columns:1fr;}}
+
+  .dish{padding:10px 0;}
+  .dish-top{display:flex;align-items:baseline;gap:10px;}
+  .dish-name{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;color:var(--cream);}
+  .dish-name em{font-style:italic;color:var(--dim);font-size:14px;}
+  .dish-leader{flex:1;border-bottom:1px dotted rgba(143,162,148,.35);transform:translateY(-4px);}
+  .dish-price{font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--gold-light);font-weight:600;white-space:nowrap;}
+  .dish-desc{color:var(--dim);font-size:14px;margin-top:3px;line-height:1.45;max-width:46ch;}
+  .dish-tags{display:flex;gap:6px;margin-top:5px;flex-wrap:wrap;}
+  .tag{font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--gold-light);border:1px solid var(--line-strong);padding:2px 8px;border-radius:20px;}
+
+  .drink-note{text-align:center;color:var(--dim);font-size:14px;font-style:italic;font-family:'Cormorant Garamond',serif;margin-top:-14px;margin-bottom:20px;}
+
+  .back-to-top{position:fixed;right:22px;bottom:22px;width:46px;height:46px;border-radius:0 14px 0 14px;background:var(--gold);color:#211A08;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 8px 24px rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .25s ease, transform .25s ease;z-index:55;}
+  .back-to-top.show{opacity:1;pointer-events:auto;}
+  .back-to-top:hover{transform:translateY(-3px);}
+  .back-to-top svg{width:20px;height:20px;}
+
+  footer{padding:32px 0 40px;text-align:center;font-size:12px;color:var(--dim);}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a class="logo" href="index.html#top" aria-label="Mexican Restaurant — back to home">
+      <div class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#DEBE73" stroke-width="1.5"><path d="M4 12a8 8 0 0 1 16 0z"/><path d="M4 12c0 4 3.5 8 8 9 4.5-1 8-5 8-9"/><path d="M8.5 14.5c.6-1.2 1.6-2 3.5-2s2.9.8 3.5 2"/></svg></div>
+      <div class="brand">Mexican <span>Restaurant</span></div>
+    </a>
+    <div class="navlinks"><a href="index.html#about">About</a><a href="menu.html" class="current">Menu</a><a href="index.html#location">Location</a><a href="index.html#reviews">Reviews</a><a href="index.html#contact">Contact</a></div>
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></svg>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html#about">About</a>
+    <a href="menu.html">Menu</a>
+    <a href="index.html#location">Location</a>
+    <a href="index.html#reviews">Reviews</a>
+    <a href="index.html#contact">Contact</a>
+  </div>
+</nav>
+
+<header class="menu-hero">
+  <div class="wrap">
+    <div class="kicker">Our full menu</div>
+    <h1>Served slow, from the garden to the table.</h1>
+    <p>Every dish is made to order, in the order the kitchen can give it care. Prices in CAD, before tax.</p>
+    <svg class="ornament" viewBox="0 0 130 14" fill="none"><path d="M0 7h50" stroke="#C9A24B" stroke-width="1" opacity=".6"/><circle cx="65" cy="7" r="4" stroke="#C9A24B" stroke-width="1" fill="none"/><path d="M80 7h50" stroke="#C9A24B" stroke-width="1" opacity=".6"/></svg>
+  </div>
+</header>
+
+<div class="menu-index-wrap">
+  <div class="menu-index" id="menuIndex">
+    <a href="#starters" data-target="starters">Starters &amp; Appetizers</a>
+    <a href="#tacos" data-target="tacos">Tacos &amp; Quesadillas</a>
+    <a href="#mains" data-target="mains">Main Dishes</a>
+    <a href="#desserts" data-target="desserts">Desserts</a>
+    <a href="#drinks" data-target="drinks">Drinks</a>
+    <a href="#non-alcoholic" data-target="non-alcoholic">Non-Alcoholic</a>
+  </div>
+</div>
+
+<main class="menu-body">
+
+  <section class="menu-course" id="starters">
+    <div class="course-head">
+      <div class="kicker">To begin</div>
+      <h2>Starters &amp; Appetizers</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="dish-grid">
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Guacamole de la Casa</span><span class="dish-leader"></span><span class="dish-price">$12</span></div>
+        <p class="dish-desc">Hand-mashed avocado, lime, white onion, serrano, cilantro. Served with fresh tortilla chips.</p>
+        <div class="dish-tags"><span class="tag">Vegan</span><span class="tag">GF</span></div>
+      </div>
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Queso Fundido</span><span class="dish-leader"></span><span class="dish-price">$14</span></div>
+        <p class="dish-desc">Melted Oaxaca and Chihuahua cheese, roasted poblano, chorizo, warm tortillas on the side.</p>
+        <div class="dish-tags"><span class="tag">Vegetarian option</span></div>
+      </div>
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Esquites</span><span class="dish-leader"></span><span class="dish-price">$9</span></div>
+        <p class="dish-desc">Charred corn off the cob, chipotle mayo, cotija, lime, tajín.</p>
+        <div class="dish-tags"><span class="tag">Vegetarian</span><span class="tag">GF</span></div>
+      </div>
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Ceviche de Camarón</span><span class="dish-leader"></span><span class="dish-price">$17</span></div>
+        <p class="dish-desc">Gulf shrimp cured in lime, tomato, cucumber, avocado, and a touch of habanero.</p>
+        <div class="dish-tags"><span class="tag">GF</span></div>
+      </div>
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Sopa de Tortilla</span><span class="dish-leader"></span><span class="dish-price">$11</span></div>
+        <p class="dish-desc">Tomato-guajillo broth, crisp tortilla strips, avocado, queso fresco, crema.</p>
+        <div class="dish-tags"><span class="tag">Vegetarian option</span></div>
+      </div>
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Elote Callejero</span><span class="dish-leader"></span><span class="dish-price">$7</span></div>
+        <p class="dish-desc">Grilled corn on the cob, crema, cotija, chile powder, lime. One per order.</p>
+        <div class="dish-tags"><span class="tag">Vegetarian</span><span class="tag">GF</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="menu-course" id="tacos">
+    <div class="course-head">
+      <div class="kicker">Handheld</div>
+      <h2>Tacos &amp; Quesadillas</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="dish-grid">
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Tacos al Pastor <em>(3)</em></span><span class="dish-leader"></span><span class="dish-price">$15</span></div>
+        <p class="dish-desc">Achiote-marinated pork, grilled pineapple, onion, cilantro on double corn tortillas.</p>
+      </div>
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Tacos de Carne Asada <em>(3)</em></span><span class="dish-leader"></span><span class="dish-price">$16</span></div>
+        <p class="dish-desc">Grilled striploin, charred green onion, salsa verde, lime.</p>
+      </div>
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Tacos de Pescado <em>(2)</em></span><span class="dish-leader"></span><span class="dish-price">$16</span></div>
+        <p class="dish-desc">Beer-battered whitefish, cabbage slaw, chipotle crema, pickled red onion.</p>
+      </div>
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Tacos de Hongos <em>(3)</em></span><span class="dish-leader"></span><span class="dish-price">$14</span></div>
+        <p class="dish-desc">Wild mushrooms, epazote, melted cheese, salsa roja. A kitchen favorite.</p>
+        <div class="dish-tags"><span class="tag">Vegetarian</span></div>
+      </div>
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Quesadilla de Flor de Calabaza</span><span class="dish-leader"></span><span class="dish-price">$15</span></div>
+        <p class="dish-desc">Squash blossom, Oaxaca cheese, epazote, griddled blue-corn tortilla.</p>
+        <div class="dish-tags"><span class="tag">Vegetarian</span></div>
+      </div>
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Quesadilla de Birria</span><span class="dish-leader"></span><span class="dish-price">$17</span></div>
+        <p class="dish-desc">Slow-braised beef, melted cheese, consommé for dipping.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="menu-course" id="mains">
+    <div class="course-head">
+      <div class="kicker">From the kitchen</div>
+      <h2>Main Dishes</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="dish-grid">
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Pozole Rojo</span><span class="dish-leader"></span><span class="dish-price">$22</span></div>
+        <p class="dish-desc">Hominy and slow-cooked pork in a guajillo broth, garnished tableside with cabbage, radish, oregano.</p>
+        <div class="dish-tags"><span class="tag">GF</span></div>
+      </div>
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Mole Poblano</span><span class="dish-leader"></span><span class="dish-price">$26</span></div>
+        <p class="dish-desc">Half chicken, twenty-ingredient mole made in house, sesame seed, Mexican rice.</p>
+        <div class="dish-tags"><span class="tag">GF</span></div>
+      </div>
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Cochinita Pibil</span><span class="dish-leader"></span><span class="dish-price">$24</span></div>
+        <p class="dish-desc">Achiote-and-citrus pork, slow roasted in banana leaf, pickled red onion, black beans.</p>
+        <div class="dish-tags"><span class="tag">GF</span></div>
+      </div>
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Enchiladas Verdes <em>(3)</em></span><span class="dish-leader"></span><span class="dish-price">$19</span></div>
+        <p class="dish-desc">Corn tortillas, shredded chicken, salsa verde, crema, queso fresco.</p>
+      </div>
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Chile Relleno</span><span class="dish-leader"></span><span class="dish-price">$21</span></div>
+        <p class="dish-desc">Roasted poblano stuffed with cheese, lightly battered, tomato broth, Mexican rice.</p>
+        <div class="dish-tags"><span class="tag">Vegetarian</span></div>
+      </div>
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Camarones a la Diabla</span><span class="dish-leader"></span><span class="dish-price">$27</span></div>
+        <p class="dish-desc">Gulf shrimp in a fiery árbol-chile sauce, garlic rice, warm tortillas.</p>
+        <div class="dish-tags"><span class="tag">GF</span><span class="tag">Spicy</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="menu-course" id="desserts">
+    <div class="course-head">
+      <div class="kicker">To finish</div>
+      <h2>Desserts</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="dish-grid">
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Pastel Tres Leches</span><span class="dish-leader"></span><span class="dish-price">$10</span></div>
+        <p class="dish-desc">Soaked sponge cake, whipped cream, seasonal fruit.</p>
+      </div>
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Churros con Chocolate</span><span class="dish-leader"></span><span class="dish-price">$9</span></div>
+        <p class="dish-desc">Cinnamon-sugar churros, warm dark chocolate for dipping.</p>
+      </div>
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Flan de Café</span><span class="dish-leader"></span><span class="dish-price">$9</span></div>
+        <p class="dish-desc">Silky coffee custard, caramel, a touch of cinnamon.</p>
+        <div class="dish-tags"><span class="tag">GF</span></div>
+      </div>
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Pastel de Elote</span><span class="dish-leader"></span><span class="dish-price">$9</span></div>
+        <p class="dish-desc">Warm sweet corn cake, crema, a drizzle of cajeta.</p>
+        <div class="dish-tags"><span class="tag">Vegetarian</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="menu-course" id="drinks">
+    <div class="course-head">
+      <div class="kicker">To drink</div>
+      <h2>Drinks</h2>
+      <div class="rule"></div>
+    </div>
+    <p class="drink-note">Please drink responsibly. Valid ID required.</p>
+    <div class="dish-grid">
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Margarita Clásica</span><span class="dish-leader"></span><span class="dish-price">$15</span></div>
+        <p class="dish-desc">Blanco tequila, fresh lime, orange liqueur, tajín rim.</p>
+      </div>
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Mezcal Paloma</span><span class="dish-leader"></span><span class="dish-price">$16</span></div>
+        <p class="dish-desc">Smoky mezcal, grapefruit, lime, soda, salt rim.</p>
+      </div>
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Michelada</span><span class="dish-leader"></span><span class="dish-price">$12</span></div>
+        <p class="dish-desc">Mexican lager, lime, tomato-chile mix, tajín rim.</p>
+      </div>
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Mexican Lager</span><span class="dish-leader"></span><span class="dish-price">$8</span></div>
+        <p class="dish-desc">Ask your server for the rotating selection.</p>
+      </div>
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Red or White Wine</span><span class="dish-leader"></span><span class="dish-price">$13/glass</span></div>
+        <p class="dish-desc">Ask your server for tonight's list.</p>
+      </div>
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Sangría de la Casa</span><span class="dish-leader"></span><span class="dish-price">$14</span></div>
+        <p class="dish-desc">Red wine, brandy, seasonal fruit, orange.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="menu-course" id="non-alcoholic">
+    <div class="course-head">
+      <div class="kicker">Refresh</div>
+      <h2>Non-Alcoholic Drinks</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="dish-grid">
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Agua de Horchata</span><span class="dish-leader"></span><span class="dish-price">$6</span></div>
+        <p class="dish-desc">Rice milk, cinnamon, vanilla, house made daily.</p>
+      </div>
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Agua de Jamaica</span><span class="dish-leader"></span><span class="dish-price">$6</span></div>
+        <p class="dish-desc">Hibiscus flower, lightly sweetened, served over ice.</p>
+      </div>
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Limonada Mineral</span><span class="dish-leader"></span><span class="dish-price">$6</span></div>
+        <p class="dish-desc">Sparkling water, fresh lime, a touch of mint.</p>
+      </div>
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Mexican Hot Chocolate</span><span class="dish-leader"></span><span class="dish-price">$6</span></div>
+        <p class="dish-desc">Cinnamon, dark chocolate, whole milk, whipped by hand.</p>
+      </div>
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Café de Olla</span><span class="dish-leader"></span><span class="dish-price">$5</span></div>
+        <p class="dish-desc">Coffee simmered with cinnamon and piloncillo.</p>
+      </div>
+      <div class="dish">
+        <div class="dish-top"><span class="dish-name">Soft Drinks</span><span class="dish-leader"></span><span class="dish-price">$4</span></div>
+        <p class="dish-desc">Ask your server for the selection.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<a href="#top" class="back-to-top" id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
+</a>
+
+<footer><div class="wrap">© 2026 Mexican Restaurant · Your City — concept sample by NavarroCampos Services</div></footer>
+
+<script>
+(function(){
+  const toggle = document.getElementById('menuToggle');
+  const menu = document.getElementById('mobileMenu');
+  if(toggle && menu){
+    toggle.addEventListener('click', () => {
+      const isOpen = menu.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      menu.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    }));
+  }
+
+  const indexLinks = Array.from(document.querySelectorAll('#menuIndex a'));
+  const courses = indexLinks.map(a => document.getElementById(a.dataset.target)).filter(Boolean);
+  const backToTop = document.getElementById('backToTop');
+
+  const menuIndex = document.getElementById('menuIndex');
+  let lastActiveId = null;
+
+  function centerActivePill(link){
+    if(!menuIndex) return;
+    const wrapW = menuIndex.clientWidth;
+    const target = link.offsetLeft + link.offsetWidth / 2 - wrapW / 2;
+    menuIndex.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
+  }
+
+  function onScroll(){
+    let currentId = courses[0] && courses[0].id;
+    const trigger = window.innerHeight * 0.35;
+    for(const sec of courses){
+      const rect = sec.getBoundingClientRect();
+      if(rect.top - trigger <= 0) currentId = sec.id;
+    }
+    indexLinks.forEach(a => a.classList.toggle('active', a.dataset.target === currentId));
+    if(currentId !== lastActiveId){
+      lastActiveId = currentId;
+      const activeLink = indexLinks.find(a => a.dataset.target === currentId);
+      if(activeLink) centerActivePill(activeLink);
+    }
+    if(backToTop) backToTop.classList.toggle('show', window.scrollY > 700);
+  }
+  window.addEventListener('scroll', onScroll, { passive:true });
+  window.addEventListener('resize', () => {
+    const activeLink = indexLinks.find(a => a.classList.contains('active'));
+    if(activeLink) centerActivePill(activeLink);
+  });
+  onScroll();
+})();
+</script>
+
+</body>
+</html>
