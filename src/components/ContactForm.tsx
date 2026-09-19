@@ -94,7 +94,7 @@ export function ContactForm() {
             className={`form-input${errors.from_name ? ' is-error' : ''}`}
             type="text"
             name="from_name"
-            placeholder="Maria Garcia"
+            placeholder="John Smith"
             onChange={() => clearError('from_name')}
             aria-invalid={!!errors.from_name}
             aria-describedby={errors.from_name ? 'from_name-error' : undefined}
@@ -111,7 +111,7 @@ export function ContactForm() {
             className={`form-input${errors.reply_to ? ' is-error' : ''}`}
             type="email"
             name="reply_to"
-            placeholder="maria@yourbusiness.com"
+            placeholder="john@yourbusiness.com"
             onChange={() => clearError('reply_to')}
             aria-invalid={!!errors.reply_to}
             aria-describedby={errors.reply_to ? 'reply_to-error' : undefined}
