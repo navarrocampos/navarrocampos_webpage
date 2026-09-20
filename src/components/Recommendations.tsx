@@ -74,43 +74,44 @@ function PortfolioCard({
 
       <div className="portfolio-card-face">
         {isComingSoon ? (
-          <div className="portfolio-coming-soon" aria-hidden="true">
-            <span className="portfolio-coming-soon-icon">🚧</span>
-          </div>
+          <>
+            <div className="portfolio-coming-soon" aria-hidden="true">
+              <span className="portfolio-coming-soon-icon">🚧</span>
+            </div>
+            <div className="portfolio-face-overlay portfolio-face-overlay--empty">
+              <h3 className="portfolio-client-name">{item.client}</h3>
+              <span className="portfolio-coming-soon-tag">More projects on the way</span>
+            </div>
+          </>
         ) : (
-          <iframe
-            src={item.url}
-            className="portfolio-preview-iframe"
-            title={`${item.client} website preview`}
-            loading="lazy"
-            tabIndex={-1}
-            aria-hidden="true"
-          />
-        )}
+          <>
+            <iframe
+              src={item.url}
+              className="portfolio-preview-iframe"
+              title={`${item.client} website preview`}
+              loading="lazy"
+              tabIndex={-1}
+              aria-hidden="true"
+            />
 
-        <div className={`portfolio-face-overlay${isComingSoon ? ' portfolio-face-overlay--empty' : ''}`}>
-          {!isComingSoon && (
             <div className="portfolio-badge-row">
               <span className="portfolio-badge">{item.business}</span>
               <span className="portfolio-badge portfolio-badge--build">{item.build} build</span>
             </div>
-          )}
 
-          <h3 className="portfolio-client-name">{item.client}</h3>
-
-          {item.url ? (
-            <a
-              href={item.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="portfolio-visit-link"
-            >
-              Visit live site ↗
-            </a>
-          ) : (
-            <span className="portfolio-coming-soon-tag">More projects on the way</span>
-          )}
-        </div>
+            <div className="portfolio-face-bottom">
+              <h3 className="portfolio-client-name">{item.client}</h3>
+              <a
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="portfolio-visit-pill"
+              >
+                Visit live site ↗
+              </a>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
