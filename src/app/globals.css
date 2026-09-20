@@ -372,7 +372,6 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 .plan-price { margin-bottom: 20px; }
 .price-inline-row { display: flex; align-items: baseline; gap: 8px; }
 .price-was { font-size: 1rem; font-weight: 500; color: var(--slate-soft); text-decoration: line-through; }
-.price-was .cad { text-decoration: none; }
 .price-amount { font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; color: var(--slate); }
 .price-per-hour { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--slate); }
 .price-note { display: block; font-size: 0.78rem; color: var(--slate-soft); margin-top: 2px; }
@@ -425,7 +424,6 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
   padding: 6px 18px; border-radius: 20px; white-space: nowrap; flex-shrink: 0;
   letter-spacing: 0.02em;
 }
-.maint-included-badge .cad { color: #FFFFFF; }
 /* Fix 3: marker removed — zero width, no line */
 .maint-ladder { display: flex; flex-direction: column; gap: 0; }
 .maint-step { display: flex; gap: 0; position: relative; }
@@ -805,13 +803,12 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 .faq-answer { padding: 0 20px 20px; }
 .faq-answer p { font-size: 0.95rem; color: var(--slate-mid); line-height: 1.65; }
 
-/* ---- 13c. Small CAD currency label ---- */
+/* ---- 13c. CAD currency label ---- */
+/* Inherits the surrounding text's font, weight and color exactly;
+   only the size changes — 60% smaller than the number it follows. */
 .cad {
-  font-size: 0.62em; font-weight: 600; color: var(--slate-soft);
-  letter-spacing: 0.02em; margin-left: 0; vertical-align: baseline;
+  font-size: 0.4em;
 }
-.price-amount .cad, .maint-price .cad, .proof-number .cad { font-size: 0.34em; vertical-align: baseline; }
-.faq-answer .cad { font-size: 0.85em; font-weight: 500; }
 
 /* ---- 14. Print ---- */
 @media print {

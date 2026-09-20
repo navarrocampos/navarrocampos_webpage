@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, type ReactNode } from 'react';
-import { withCad } from './withCad';
 
 interface FaqItem {
   id: string;
@@ -44,14 +43,29 @@ const FAQS: FaqItem[] = [
   {
     id: 'faq-cost',
     question: 'How much does a managed small business website cost?',
-    answer:
-      "We believe in honest, transparent pricing with flat rates and no hidden surprises. Our launch pricing starts at a one-time build fee of $560 USD/CAD for a single-page Starter website and $800 USD/CAD for a multi-page Growth site. After the first year, keeping your site online costs just $89 CAD/year for complete hosting and domain renewal.",
+    answer: (
+      <p>
+        {'We believe in honest, transparent pricing with flat rates and no hidden surprises. Our launch pricing starts at a one-time build fee of $560'}
+        <span className="cad">CAD</span>
+        {' for a single-page Starter website and $800'}
+        <span className="cad">CAD</span>
+        {' for a multi-page Growth site. After the first year, keeping your site online costs just $99'}
+        <span className="cad">CAD</span>
+        {' year for complete hosting and domain renewal.'}
+      </p>
+    ),
   },
   {
     id: 'faq-technical',
     question: 'Do I need to know how to code or manage servers?',
     answer:
       "Not at all. We handle 100% of the technical setup behind the scenes, including domain configuration, SSL security, and cloud hosting. Once your website goes live, we provide a personalized walkthrough to show you exactly how it works, and we offer hands-on monthly maintenance plans if you prefer us to handle text and image updates for you.",
+  },
+  {
+    id: 'faq-booking-integrations',
+    question: 'Can you connect my website to booking or scheduling software like Jobber, ZenMaid, or Calendly?',
+    answer:
+      "Absolutely. While our base packages include a standard contact and quote form, we can seamlessly integrate your preferred booking or reservation platform. Because every software setup is unique, we handle these integrations under our Active Care hourly rate. We will discuss your specific software needs during your free consultation and give you a clear estimate of the time required.",
   },
 ];
 
@@ -99,7 +113,7 @@ export function FAQ() {
                   aria-labelledby={`${item.id}-button`}
                   hidden={!isOpen}
                 >
-                  {typeof item.answer === 'string' ? <p>{withCad(item.answer)}</p> : item.answer}
+                  {typeof item.answer === 'string' ? <p>{item.answer}</p> : item.answer}
                 </div>
               </div>
             );

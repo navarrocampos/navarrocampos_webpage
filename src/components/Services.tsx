@@ -1,4 +1,4 @@
-import { withCad } from './withCad';
+import type { ReactNode } from 'react';
 
 interface Cta {
   label: string;
@@ -16,7 +16,7 @@ interface Plan {
   cardClass: string;
   badge?: string;
   priceWas?: string;
-  price: string;
+  price: ReactNode;
   perHour?: boolean;
   priceNote: string;
   features: string[];
@@ -33,7 +33,7 @@ const plans: Plan[] = [
     headerClass: 'plan-header--blue',
     cardClass: 'plan-card--blue-border',
     priceWas: '$700',
-    price: '$560CAD',
+    price: <>{'$560'}<span className="cad">CAD</span></>,
     priceNote: 'one-time build · launch price',
     features: [
       'Single-page professional website',
@@ -56,7 +56,7 @@ const plans: Plan[] = [
     cardClass: 'plan-card--coral-border plan-card--featured',
     badge: 'Most Popular',
     priceWas: '$1,000',
-    price: '$800CAD',
+    price: <>{'$800'}<span className="cad">CAD</span></>,
     priceNote: 'one-time build · launch price',
     features: [
       'Up to 3 pages as per your needs',
@@ -67,7 +67,7 @@ const plans: Plan[] = [
     ],
     cta: [
       { label: 'Get a quote',      href: '#contact',               cls: 'plan-cta--coral' },
-      { label: 'See Growth Style', href: '/mexican-restaurant-concept/index.html', cls: 'plan-cta--coral-ghost', target: '_blank' },
+      { label: 'See Growth Style', href: 'growth-style-main.html', cls: 'plan-cta--coral-ghost', target: '_blank' },
     ],
   },
   {
@@ -77,10 +77,12 @@ const plans: Plan[] = [
     tagline: 'Live updates when you need them.',
     headerClass: 'plan-header--mint',
     cardClass: 'plan-card--mint-border',
-    price: '$100CAD',
+    price: <>{'$100'}<span className="cad">CAD/hr</span></>,
     perHour: true,
     priceNote: 'no minimum · no retainer',
     features: [
+      'Booking & Scheduling Integrations: Connect Calendly, Jobber, ZenMaid, OpenTable, etc.',
+      'Custom Forms & Automations',
       'Text & image updates',
       'New sections or pages added',
       'Menu & price list changes',
@@ -117,7 +119,7 @@ export function Services() {
             <strong>1st year of Foundation included free</strong> with any website build — your
             hosting, domain &amp; SSL are covered from day one.
           </div>
-          <span className="maint-included-badge">{withCad('$89CAD')} value</span>
+          <span className="maint-included-badge">{'$99'}<span className="cad">CAD</span>{' value'}</span>
         </a>
 
         <div className="plans-grid">
@@ -138,9 +140,8 @@ export function Services() {
               <div className="plan-body">
                 <div className="plan-price">
                   <span className="price-inline-row">
-                    {plan.priceWas && <span className="price-was">{withCad(plan.priceWas)}</span>}
-                    <span className="price-amount">{withCad(plan.price)}</span>
-                    {plan.perHour && <span className="price-per-hour">/hr</span>}
+                    {plan.priceWas && <span className="price-was">{plan.priceWas}</span>}
+                    <span className="price-amount">{plan.price}</span>
                   </span>
                   <span className="price-note">{plan.priceNote}</span>
                 </div>

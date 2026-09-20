@@ -1,5 +1,3 @@
-import { withCad } from './withCad';
-
 export function Hero() {
   return (
     <section className="hero" id="hero" aria-labelledby="hero-heading">
@@ -27,7 +25,7 @@ export function Hero() {
           </div>
           <div className="proof-divider" aria-hidden="true" />
           <div className="proof-item">
-            <span className="proof-number">{withCad('$560CAD')}</span>
+            <span className="proof-number">{'$560'}<span className="cad">CAD</span></span>
             <span className="proof-label">Websites from (launch price)</span>
           </div>
           <div className="proof-divider" aria-hidden="true" />

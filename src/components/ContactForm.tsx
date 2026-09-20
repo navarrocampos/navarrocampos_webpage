@@ -135,11 +135,11 @@ export function ContactForm() {
           aria-describedby={errors.business_type ? 'business_type-error' : undefined}
         >
           <option value="">Select your business type</option>
-          <option>Home Services (cleaning, landscaping, handyman)</option>
-          <option>Beauty &amp; Wellness</option>
-          <option>Food Business (baker, caterer, food truck)</option>
-          <option>Tutor or Coach</option>
-          <option>Tradesperson (electrician, plumber, HVAC)</option>
+          <option>Home Services &amp; Booking (Cleaning, Landscaping, ZenMaid/Jobber)</option>
+          <option>Beauty, Wellness &amp; Scheduling (Salon, Spa, Fresha/Square)</option>
+          <option>Food Business &amp; Reservations (Baker, Caterer, Restaurant booking)</option>
+          <option>Tutors, Coaches &amp; Consulting (Calendly/Meeting links)</option>
+          <option>Tradesperson (Electrician, Plumber, HVAC)</option>
           <option>Other</option>
         </select>
         {errors.business_type && (

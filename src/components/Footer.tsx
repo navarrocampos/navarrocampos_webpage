@@ -17,7 +17,7 @@ export function Footer() {
           <a href="#" className="footer-logo-link" aria-label="NavarroCampos Services home">
             <NCLogo variant="dark" className="footer-logo-img" />
           </a>
-          <p className="footer-tagline">Professional websites. Honest prices. Family values.</p>
+          <p className="footer-tagline">Professional websites. Honest prices. Transparent communication.</p>
         </div>
 
         <nav className="footer-nav" aria-label="Footer navigation">

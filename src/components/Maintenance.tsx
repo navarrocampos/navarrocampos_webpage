@@ -1,8 +1,9 @@
-import { withCad } from './withCad';
+import type { ReactNode } from 'react';
 
 interface Feature {
-  text: string;
+  text: ReactNode;
   inherit?: boolean;
+  bold?: boolean;
 }
 
 interface Tier {
@@ -12,10 +13,10 @@ interface Tier {
   tagline: string;
   cardClass: string;
   includedTag?: string;
-  badgeValue?: string;
-  price: string;
+  badgeValue?: ReactNode;
+  price: ReactNode;
   period: string;
-  save?: { label: string; cls: string };
+  save?: { label: ReactNode; cls: string };
   cta: { label: string; cls: string };
   features: Feature[];
 }
@@ -28,7 +29,7 @@ const tiers: Tier[] = [
     tagline: 'Your site stays live — we handle everything behind the scenes.',
     cardClass: 'maint-step-card--slate',
     includedTag: '🎁 1st year free with any build package',
-    price: '$89CAD',
+    price: <>{'$99'}<span className="cad">CAD</span></>,
     period: '/year',
     cta: { label: 'Get Foundation', cls: 'maint-cta--slate' },
     features: [
@@ -44,9 +45,9 @@ const tiers: Tier[] = [
     name: 'Essential',
     tagline: 'Foundation + one round of content updates every month.',
     cardClass: 'maint-step-card--blue',
-    price: '$199CAD',
+    price: <>{'$239'}<span className="cad">CAD</span></>,
     period: '/year',
-    save: { label: 'best value', cls: 'maint-save--blue' },
+    save: { label: 'Best Value - Under $20/mo.', cls: 'maint-save--blue' },
     cta: { label: 'Get Essential', cls: 'maint-cta--blue' },
     features: [
       { text: 'All of Foundation included', inherit: true },
@@ -61,17 +62,17 @@ const tiers: Tier[] = [
     name: 'Growth Care',
     tagline: 'Essential + 15 hours of hands-on work. Your site keeps growing.',
     cardClass: 'maint-step-card--coral',
-    badgeValue: '$1,500CAD value',
-    price: '$999CAD',
+    badgeValue: <>{'$1,500 '}<span className="cad">CAD</span>{' value'}</>,
+    price: <>{'$999'}<span className="cad">CAD</span></>,
     period: '/year',
-    save: { label: 'save $500+CAD', cls: 'maint-save--coral' },
+    save: { label: <>{'save $500+'}<span className="cad">CAD</span></>, cls: 'maint-save--coral' },
     cta: { label: 'Get Growth Care', cls: 'maint-cta--coral' },
     features: [
       { text: 'All of Essential included', inherit: true },
-      { text: '15 hours of changes & updates ($1,500CAD value)' },
+      { text: <>{'15 hours of changes & updates ($1,500'}<span className="cad">CAD</span>{' value)'}</> },
       { text: 'New pages, sections & features' },
       { text: 'Fastest response time' },
-      { text: 'Unused hours roll over (up to 1 year)' },
+      { text: 'Unused hours roll over (up to 1 year)', bold: true },
     ],
   },
 ];
@@ -102,7 +103,7 @@ export function Maintenance() {
                   <div className="maint-included-tag-top">{tier.includedTag}</div>
                 )}
                 {tier.badgeValue && (
-                  <div className="maint-badge-value">{withCad(tier.badgeValue)}</div>
+                  <div className="maint-badge-value">{tier.badgeValue}</div>
                 )}
 
                 <div className="maint-step-card-inner">
@@ -122,8 +123,10 @@ export function Maintenance() {
                             aria-hidden="true"
                           >✓</span>
                           {f.inherit
-                            ? <span className="maint-inherited">{withCad(f.text)}</span>
-                            : withCad(f.text)
+                            ? <span className="maint-inherited">{f.text}</span>
+                            : f.bold
+                              ? <strong>{f.text}</strong>
+                              : <span>{f.text}</span>
                           }
                         </li>
                       ))}
@@ -133,11 +136,11 @@ export function Maintenance() {
                   <div className="maint-step-right">
                     <div className="maint-price-group">
                       <div className="maint-step-price">
-                        <span className="maint-price">{withCad(tier.price)}</span>
+                        <span className="maint-price">{tier.price}</span>
                         <span className="maint-period">{tier.period}</span>
                       </div>
                       {tier.save && (
-                        <span className={`maint-save ${tier.save.cls}`}>{withCad(tier.save.label)}</span>
+                        <span className={`maint-save ${tier.save.cls}`}>{tier.save.label}</span>
                       )}
                     </div>
                     <a href="#contact" className={`maint-cta ${tier.cta.cls}`}>
